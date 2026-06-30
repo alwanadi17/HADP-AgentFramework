@@ -1,13 +1,13 @@
-# 🤖 Multi-Agent Project Management Template
+# 📘 HADP — Hierarchical Agentic Development Pipeline
 
-A reusable template for multi-tier AI-assisted project development.
+A reusable template for **multi-tier AI-assisted project development** using the HADP model.
 
 ## Quick Start
 
 1. Copy the contents of this directory to your new project root
-2. Customize `.agents/CONSTITUTION.md` with your project's identity and philosophy
-3. Customize `.agents/RED_LINES.md` with your project's hard constraints
-4. Customize `.agents/ARCHITECTURE.md` with your tech stack and data flow
+2. Customize `.agents/CONSTITUTION.md` — project identity & philosophy
+3. Customize `.agents/RED_LINES.md` — hard constraints
+4. Customize `.agents/ARCHITECTURE.md` — tech stack & data flow
 5. Update `AGENTS.md` with your project-specific quick reference
 6. Add `.agents/` to your `.gitignore`
 
@@ -16,60 +16,97 @@ A reusable template for multi-tier AI-assisted project development.
 ```
 .reusable_template/
 ├── README.md                         ← You are here
-├── .agents/                          ← KANTOR (governance & workflow)
+├── AGENTS.md                         ← HADP Manual Book (entry point)
+├── PLAN.md                           ← Task checklist template
+│
+├── .agents/                          ← 🏢 KANTOR (governance & workflow)
 │   ├── CONSTITUTION.md               ← Project identity (customize)
 │   ├── RED_LINES.md                  ← Hard constraints (customize)
 │   ├── ARCHITECTURE.md               ← Tech stack & data flow (customize)
-│   ├── roles/
-│   │   ├── analyst.md               ← Tier 0 system prompt
-│   │   ├── decision-maker.md         ← Tier 1 system prompt
-│   │   ├── manager.md                ← Tier 2 system prompt
-│   │   ├── worker-coder.md           ← Tier 3a system prompt
-│   │   └── worker-tester.md          ← Tier 3b system prompt
-│   ├── handoffs/
-│   │   └── README.md                 ← Handoff naming conventions
+│   ├── roles/                        ← Agent system prompts
+│   │   ├── analyst.md               ← Tier 0 — Research & mapping
+│   │   ├── auditor.md               ← Tier 0b — Compliance & decision review
+│   │   ├── decision-maker.md         ← Tier 1 — Architecture & governance
+│   │   ├── manager.md                ← Tier 2 — Task decomposition & validation
+│   │   ├── worker-coder.md           ← Tier 3a — Code implementation
+│   │   └── worker-tester.md          ← Tier 3b — Testing & verification
+│   ├── handoffs/                     ← Active handoff packets
+│   │   └── README.md
 │   └── docs/                         ← Dokumentasi workflow & laporan
 │       ├── handoff-protocol.md       ← How agents communicate
-│       ├── workflow/                 ← Lifecycle, states, triggers
+│       ├── workflow/
+│       │   ├── lifecycle.md          ← High-level flow diagram
+│       │   ├── states.md             ← Task lifecycle state machine
+│       │   └── triggers.md           ← Transition triggers
 │       ├── workbook/                 ← Per-role report archives
+│       │   ├── analyst/
+│       │   ├── auditor/
+│       │   ├── decision-maker/
+│       │   ├── manager/
+│       │   ├── coder/
+│       │   └── tester/
 │       ├── reports/                  ← Aggregate reports
-│       └── decisions/
-│           └── _template.md          ← ADR template
-├── AGENTS.md                         ← Manual Book (customize)
-└── PLAN.md                           ← Task checklist template
+│       │   ├── sprint-review.md
+│       │   └── audit-trail.md
+│       └── decisions/                ← ADR archive
+│           └── _template.md
+│
+└── src/                              ← 🏭 PABRIK (production code)
 ```
 
 ## Agent Hierarchy
 
 | Tier | Role | Suggested Model Profile | Purpose |
 |---|---|---|---|
-| 0 | Analyst | Long-context, high-volume (e.g., Gemini 3.5 Flash Extended) | Research, codebase mapping, structured briefs |
-| 1 | Decision Maker | High-reasoning (e.g., Opus 4.8) | Rules, architecture, governance |
-| 2 | Manager | Balanced intelligence (e.g., GPT 5.5) | Task decomposition, validation |
-| 3a | Worker Coder | Coding-focused (e.g., GLM 5.2) | Code implementation |
-| 3b | Worker Tester | Token-efficient (e.g., Gemini 3.5 Flash) | Testing, cross-validation |
+| 0 | **Analyst** | Long-context, high-volume (e.g., Gemini 3.5 Flash Extended) | Research, codebase mapping, structured briefs |
+| 0b | **Auditor** | High-reasoning (e.g., Opus 4.8) | Compliance audit, decision review, process assurance |
+| 1 | **Decision Maker** | High-reasoning (e.g., Opus 4.8) | Rules, architecture, governance |
+| 2 | **Manager** | Balanced intelligence (e.g., GPT 5.5) | Task decomposition, validation |
+| 3a | **Worker Coder** | Coding-focused (e.g., GLM 5.2) | Code implementation |
+| 3b | **Worker Tester** | Token-efficient (e.g., Gemini 3.5 Flash) | Testing, cross-validation |
 
 ## Workflow
 
-See `.agents/docs/handoff-protocol.md` for the complete workflow.
+```
+                    ┌─── [Auditor] (on-demand) ───┐
+                    │         ↑    ↑       ↑       │
+                    │         │    │       │       │
+                    ▼         │    │       │       │
+Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker Tester → Manager → Human
+         (opsional)                                    ↓              ↓
+                                                  build pass    test report
+```
 
-**Short version**:
-0. Analyst (Optional) → does deep research, produces structured briefs
-1. Decision Maker → reads briefs, produces governance docs
-2. Manager → decomposes into tasks, creates handoff packets
-3. Worker Coder → implements code, submits completion packets
-4. Worker Tester → independently verifies, submits test report
-5. Manager → macro-validates, passes or fails
-6. Human → reviews, merges
+**Step by step**:
+0. **Analyst** (Optional) — deep research, structured briefs → `workbook/analyst/`
+0b. **Auditor** (On-demand) — compliance audit, decision review → `workbook/auditor/`
+1. **Decision Maker** — reads briefs, produces governance docs, writes ADRs
+2. **Manager** — decomposes into tasks, creates handoff packets → `.agents/handoffs/`
+3. **Worker Coder** — implements code, runs build, submits completion packet
+4. **Worker Tester** — independently verifies, runs build, submits test report
+5. **Manager** — macro-validation, PASS / FAIL / ESCALATE
+6. **Human** — reviews, merges, triggers next cycle
+
+> Full protocol: `.agents/docs/handoff-protocol.md`
 
 ## Core Concept
 
-The workflow separates **thinking** from **doing**:
-- **Analyst** reads the codebase so the Decision Maker doesn't have to (saves expensive reasoning tokens)
-- **Decision Maker** makes high-level decisions only — never writes code
-- **Manager** translates decisions into atomic tasks — never writes code
-- **Worker Coder** writes code only — never tests their own work
-- **Worker Tester** tests code only — must be a separate session to eliminate confirmation bias
+HADP separates **thinking** from **doing** through 6 agent roles:
+
+| Role | Thinking / Doing | Key Rule |
+|---|---|---|
+| **Analyst** | 🧠 Thinking | Reads the codebase so Decision Maker doesn't have to |
+| **Auditor** | 🧠 Thinking | Reviews compliance & decisions independently |
+| **Decision Maker** | 🧠 Thinking | Makes high-level decisions only — never writes code |
+| **Manager** | 🧠 Thinking | Translates decisions into atomic tasks — never writes code |
+| **Worker Coder** | ⚡ Doing | Writes code only — never tests own work |
+| **Worker Tester** | ⚡ Doing | Tests code only — must be a separate session |
+
+### Key Principles
+- **Separation of Concerns** — each tier does ONE thing
+- **Gate System** — every transition requires a handoff packet
+- **Token Efficiency** — Analyst reads once, Decision Maker doesn't read raw source
+- **Fail Fast** — Coder fails build → report immediately. Issues → loop back
 
 ## Customization Points
 
@@ -80,3 +117,15 @@ The workflow separates **thinking** from **doing**:
 | `ARCHITECTURE.md` | Tech stack, directory structure, data flow, URL contract |
 | `AGENTS.md` | Commands, critical files, design system, data sources |
 | Role definitions | Model names, specific tool permissions, domain knowledge |
+
+## Related Docs
+
+| Doc | Path |
+|---|---|
+| Manual Book | `AGENTS.md` |
+| Hard Constraints | `.agents/RED_LINES.md` |
+| Workflow Lifecycle | `.agents/docs/workflow/lifecycle.md` |
+| Handoff Protocol | `.agents/docs/handoff-protocol.md` |
+| Task States | `.agents/docs/workflow/states.md` |
+| Triggers | `.agents/docs/workflow/triggers.md` |
+| Audit Trail | `.agents/docs/reports/audit-trail.md` |
