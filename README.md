@@ -175,13 +175,13 @@ Planned milestones to evolve the HADP framework. Each milestone is a standalone 
 
 | Task | Deliverable | Status |
 |---|---|---|
-| Create `.agents/docs/playbooks/` folder | Folder structure | ❌ |
-| Create `call-analyst.md` | Analyst playbook | ❌ |
-| Create `call-auditor.md` | Auditor playbook | ❌ |
-| Create `call-decision-maker.md` | Decision Maker playbook | ❌ |
-| Create `call-manager.md` | Manager playbook | ❌ |
-| Create `call-coder.md` | Coder playbook | ❌ |
-| Create `call-tester.md` | Tester playbook | ❌ |
+| Create `.agents/docs/playbooks/` folder | Folder structure | ✅ |
+| Create `call-analyst.md` | Analyst playbook | ✅ |
+| Create `call-auditor.md` | Auditor playbook | ✅ |
+| Create `call-decision-maker.md` | Decision Maker playbook | ✅ |
+| Create `call-manager.md` | Manager playbook | ✅ |
+| Create `call-coder.md` | Coder playbook | ✅ |
+| Create `call-tester.md` | Tester playbook | ✅ |
 
 ---
 
