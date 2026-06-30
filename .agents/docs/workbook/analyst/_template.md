@@ -1,14 +1,16 @@
 # Analyst Brief: TASK-XXX
 
+> **Contract**: `artifact-contracts.md` → `analyst_brief` — all required fields must be filled.
+
 ## Metadata
-- **Task**: TASK-XXX — [Title]
-- **Date**: YYYY-MM-DD
+- **Task**: TASK-XXX — [Title] *(required)*
+- **Date**: YYYY-MM-DD *(required)*
 - **Analyst**: [Model Name]
 
-## Scope of Analysis
+## Scope of Analysis *(required)*
 [What was analyzed — codebase area, library, API, etc.]
 
-## Key Findings
+## Key Findings *(required)*
 
 ### Structure
 [What exists — file relationships, component hierarchy, data flow]
@@ -22,7 +24,7 @@
 ### Constraints
 [Existing limitations, edge cases, potential risks]
 
-## Recommendations for Decision Maker
+## Recommendations for Decision Maker *(required)*
 [Fact-based suggestions — not decisions, just observations]
 
 ## Files Examined

@@ -1,8 +1,10 @@
 # Audit Report: [Subject]
 
+> **Contract**: `artifact-contracts.md` → `audit_report` — all required fields must be filled.
+
 ## Metadata
-- **Request**: [What was audited — ADR, handoff packet, process, etc.]
-- **Date**: YYYY-MM-DD
+- **Request**: [What was audited — ADR, handoff packet, process, etc.] *(required)*
+- **Date**: YYYY-MM-DD *(required)*
 - **Auditor**: [Model Name]
 - **Audit Type**: Compliance / Decision Review / Process Assurance
 
@@ -12,18 +14,23 @@
 ## Summary
 [One-paragraph high-level verdict]
 
+> **Severity Standard**: See `.agents/docs/framework/severity-system.md` for classification rules.
+
 ## Findings
 
-### HIGH — Must Fix
+### 🚫 BLOCKER
 1. **Finding** — file/path reference — description of the issue
 
-### MEDIUM — Should Fix
+### 🔴 HIGH
 1. **Finding** — file/path reference — description
 
-### LOW — Nice to Fix
+### 🟡 MEDIUM
 1. **Finding** — file/path reference — description
 
-### INFO — Observations
+### 🔵 LOW
+1. **Finding** — file/path reference — description
+
+### ⚪ INFO
 1. **Observation** — note for awareness
 
 ## Checklist Results

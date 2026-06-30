@@ -31,6 +31,7 @@ Every transition between roles is triggered by a specific event. This document d
 **Input**: "Auditor, review this ADR" or "Auditor, check this handoff packet"
 **Output**: Audit Report → `.agents/docs/workbook/auditor/YYYYMMDD_TASK-XXX_audit.md`
 **Note**: Optional step. Auditor is advisory — does not block or approve.
+**For decision audits**: Use the Decision Quality Rubric (`.agents/docs/framework/decision-quality-rubric.md`) to score across 6 dimensions (reversibility, blast radius, coupling, operational cost, security, simplicity). Include the scoring table in the audit report.
 
 ### T0: Human → Analyst
 **When**: Human needs deep research before decision making

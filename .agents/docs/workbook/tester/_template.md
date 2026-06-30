@@ -1,10 +1,12 @@
 # Tester Report Archive: TASK-XXX
 
+> **Contract**: `artifact-contracts.md` → `tester_report` — all required fields must be filled.
+
 ## Metadata
-- **Task**: TASK-XXX — [Title]
-- **Date**: YYYY-MM-DD
+- **Task**: TASK-XXX — [Title] *(required)*
+- **Date**: YYYY-MM-DD *(required)*
 - **Tester**: [Model Name]
-- **Verdict**: PASS | FAIL | CONCERNS
+- **Verdict**: PASS | FAIL | CONCERNS *(required)*
 
 ## Scope of Testing
 [What was tested — specific files, features, scenarios]
@@ -23,8 +25,10 @@
 - [Edge case 1] — result
 - [Edge case 2] — result
 
+> **Severity Standard**: See `.agents/docs/framework/severity-system.md` for classification rules.
+
 ## Issues Found
-1. **Issue** — severity (HIGH/MED/LOW) — status (FIXED/OPEN)
+1. **Issue** — severity (🚫 BLOCKER / 🔴 HIGH / 🟡 MEDIUM / 🔵 LOW / ⚪ INFO) — status (FIXED/OPEN)
 
 ## Evidence
 - Build log: [link or paste]

@@ -19,7 +19,7 @@ A reusable template for **multi-tier AI-assisted project development** using the
 ├── AGENTS.md                         ← HADP Manual Book (entry point)
 ├── PLAN.md                           ← Task checklist template
 │
-├── .agents/                          ← 🏢 KANTOR (governance & workflow)
+├── .agents/                          ← 🏢 OFFICE (governance & workflow)
 │   ├── CONSTITUTION.md               ← Project identity (customize)
 │   ├── RED_LINES.md                  ← Hard constraints (customize)
 │   ├── ARCHITECTURE.md               ← Tech stack & data flow (customize)
@@ -32,7 +32,7 @@ A reusable template for **multi-tier AI-assisted project development** using the
 │   │   └── worker-tester.md          ← Tier 3b — Testing & verification
 │   ├── handoffs/                     ← Active handoff packets
 │   │   └── README.md
-│   └── docs/                         ← Dokumentasi workflow & laporan
+│   └── docs/                         ← Workflow documentation & reports
 │       ├── handoff-protocol.md       ← How agents communicate
 │       ├── workflow/
 │       │   ├── lifecycle.md          ← High-level flow diagram
@@ -51,7 +51,7 @@ A reusable template for **multi-tier AI-assisted project development** using the
 │       └── decisions/                ← ADR archive
 │           └── _template.md
 │
-└── src/                              ← 🏭 PABRIK (production code)
+└── src/                              ← 🏭 FACTORY (production code)
 ```
 
 ## Agent Hierarchy
@@ -129,3 +129,90 @@ HADP separates **thinking** from **doing** through 6 agent roles:
 | Task States | `.agents/docs/workflow/states.md` |
 | Triggers | `.agents/docs/workflow/triggers.md` |
 | Audit Trail | `.agents/docs/reports/audit-trail.md` |
+
+## 📋 Next Development Project — HADP v2.0
+
+Planned milestones to evolve the HADP framework. Each milestone is a standalone project with its own tasks.
+
+---
+
+### Milestone 1: Decision Quality Rubric ✅
+**Goal**: Give the Auditor objective parameters to evaluate architectural decisions.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `.agents/docs/framework/` folder | Folder structure | ✅ |
+| Create `decision-quality-rubric.md` | Rubric with 6 dimensions (reversibility, blast radius, coupling, operational cost, security, simplicity) | ✅ |
+| Update `auditor.md` — add rubric reference | Role definition update | ✅ |
+| Update `triggers.md` — T0b output rubric | Trigger update | ✅ |
+
+---
+
+### Milestone 2: Artifact Contracts ✅
+**Goal**: Every handoff/workbook file must have a validation contract — no empty placeholders allowed.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `artifact-contracts.md` in `.agents/docs/framework/` | Contract definitions per artifact type | ✅ |
+| Update all `_template.md` files — add required field markers | Template update | ✅ |
+| Add validation checklist to `manager.md` | Manager role update | ✅ |
+
+---
+
+### Milestone 3: Task Index Registry ✅
+**Goal**: Every task is traceable from request to final verdict in one place.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `task-index.md` in `.agents/docs/reports/` | Registry template | ✅ |
+| Update `PLAN.md` — add task index reference | Plan update | ✅ |
+| Update `manager.md` — must update task index after final verdict | Manager role update | ✅ |
+
+---
+
+### Milestone 4: Role Activation Playbooks
+**Goal**: Every role has a playbook with consistent invocation prompts and templates.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `.agents/docs/playbooks/` folder | Folder structure | ❌ |
+| Create `call-analyst.md` | Analyst playbook | ❌ |
+| Create `call-auditor.md` | Auditor playbook | ❌ |
+| Create `call-decision-maker.md` | Decision Maker playbook | ❌ |
+| Create `call-manager.md` | Manager playbook | ❌ |
+| Create `call-coder.md` | Coder playbook | ❌ |
+| Create `call-tester.md` | Tester playbook | ❌ |
+
+---
+
+### Milestone 5: Automation Tooling
+**Goal**: CLI script to validate framework structure and compliance.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `scripts/hadp-check.js` | Validation script | ❌ |
+| Add `npm run hadp:check` to `AGENTS.md` | Command update | ❌ |
+| Create `.agents/docs/framework/validation-rules.md` | Rules documentation | ❌ |
+
+---
+
+### Milestone 6: Framework Documentation Overhaul
+**Goal**: Complete, structured framework documentation.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `framework-overview.md` in `.agents/docs/framework/` | HADP architecture overview | ❌ |
+| Create `glossary.md` | Term definitions (HADP, handoff, workbook, etc.) | ❌ |
+| Update `AGENTS.md` — add links to framework docs | Manual Book update | ❌ |
+
+---
+
+### Priority Order
+
+```
+Milestone 1 (Rubric) → Milestone 2 (Contracts) → Milestone 3 (Registry)
+       ↓
+Milestone 4 (Playbooks) → Milestone 5 (Tooling) → Milestone 6 (Docs)
+```
+
+**Start with Milestone 1** — the Auditor role exists but lacks the tools to work optimally.

@@ -1,10 +1,14 @@
 # Decision Record: TASK-XXX
 
+> **Contract**: `artifact-contracts.md` → `decision_record` — all required fields must be filled.
+
 ## Metadata
-- **Task**: TASK-XXX — [Title]
-- **Date**: YYYY-MM-DD
+- **Task**: TASK-XXX — [Title] *(required)*
+- **Date**: YYYY-MM-DD *(required)*
 - **Decision Maker**: [Model Name]
 - **Input Source**: Analyst Brief / Escalation / Human Request
+- **Status**: Proposed / Accepted / Deprecated / Superseded *(required)*
+- **ADR Number**: ADR-XXX *(required)*
 
 ## Context
 [What prompted this decision — problem statement, constraints, trade-offs]

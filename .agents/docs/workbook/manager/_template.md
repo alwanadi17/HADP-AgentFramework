@@ -1,10 +1,13 @@
 # Manager Report: TASK-XXX
 
+> **Contract**: `artifact-contracts.md` → `manager_handoff` / `manager_validation` — all required fields must be filled.
+
 ## Metadata
-- **Task**: TASK-XXX — [Title]
-- **Date**: YYYY-MM-DD
+- **Task**: TASK-XXX — [Title] *(required)*
+- **Date**: YYYY-MM-DD *(required)*
 - **Manager**: [Model Name]
-- **Type**: Task Plan / Validation Report / Escalation
+- **Type**: Task Plan / Validation Report / Escalation *(required)*
+- **Status**: TODO / CODING / TESTING / IN_REVIEW / DONE / BLOCKED *(required)*
 
 ---
 

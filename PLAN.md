@@ -1,6 +1,7 @@
 # Project Plan — [PROJECT NAME]
 
-> Managed by the multi-agent system. See `docs/handoff-protocol.md` for workflow.
+> Managed by the multi-agent system. See `.agents/docs/handoff-protocol.md` for workflow.
+> All tasks must be registered in the Task Index: `.agents/docs/reports/task-index.md`
 
 ---
 

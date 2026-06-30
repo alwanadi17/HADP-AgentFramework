@@ -139,6 +139,8 @@ Contoh: `docs/workbook/coder/20260630_TASK-001_completion.md`
 | Task States | `.agents/docs/workflow/states.md` | State machine task |
 | Triggers | `.agents/docs/workflow/triggers.md` | Trigger setiap transisi |
 | Handoff Protocol | `.agents/docs/handoff-protocol.md` | Format komunikasi antar agent |
+| Severity System | `.agents/docs/framework/severity-system.md` | Standar severity untuk semua role |
+| Artifact Contracts | `.agents/docs/framework/artifact-contracts.md` | Kontrak validasi untuk setiap artifact |
 | Auditor Role | `.agents/roles/auditor.md` | Definisi peran Auditor |
 | Workbook Templates | `.agents/docs/workbook/{role}/_template.md` | Template laporan per role |
 | ADR Template | `.agents/docs/decisions/_template.md` | Template keputusan arsitektur |
