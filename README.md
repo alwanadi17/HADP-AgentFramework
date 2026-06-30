@@ -16,7 +16,7 @@ A reusable template for multi-tier AI-assisted project development.
 ```
 .reusable_template/
 ├── README.md                         ← You are here
-├── .agents/
+├── .agents/                          ← KANTOR (governance & workflow)
 │   ├── CONSTITUTION.md               ← Project identity (customize)
 │   ├── RED_LINES.md                  ← Hard constraints (customize)
 │   ├── ARCHITECTURE.md               ← Tech stack & data flow (customize)
@@ -26,13 +26,16 @@ A reusable template for multi-tier AI-assisted project development.
 │   │   ├── manager.md                ← Tier 2 system prompt
 │   │   ├── worker-coder.md           ← Tier 3a system prompt
 │   │   └── worker-tester.md          ← Tier 3b system prompt
-│   └── handoffs/
-│       └── README.md                 ← Handoff naming conventions
-├── docs/
-│   ├── handoff-protocol.md           ← How agents communicate
-│   └── decisions/
-│       └── _template.md              ← ADR template
-├── AGENTS.md                         ← Root agent instructions (customize)
+│   ├── handoffs/
+│   │   └── README.md                 ← Handoff naming conventions
+│   └── docs/                         ← Dokumentasi workflow & laporan
+│       ├── handoff-protocol.md       ← How agents communicate
+│       ├── workflow/                 ← Lifecycle, states, triggers
+│       ├── workbook/                 ← Per-role report archives
+│       ├── reports/                  ← Aggregate reports
+│       └── decisions/
+│           └── _template.md          ← ADR template
+├── AGENTS.md                         ← Manual Book (customize)
 └── PLAN.md                           ← Task checklist template
 ```
 
@@ -48,7 +51,7 @@ A reusable template for multi-tier AI-assisted project development.
 
 ## Workflow
 
-See `docs/handoff-protocol.md` for the complete workflow.
+See `.agents/docs/handoff-protocol.md` for the complete workflow.
 
 **Short version**:
 0. Analyst (Optional) → does deep research, produces structured briefs

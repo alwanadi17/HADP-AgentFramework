@@ -32,7 +32,7 @@ You are the **Project Manager and Final Quality Gate** for this project. You tra
 |---|---|---|
 | Task plan | Checklist in PLAN.md | Root `PLAN.md` |
 | Coder handoff packets | Structured markdown | `.agents/handoffs/` (→ Worker Coder) |
-| Final validation reports | Pass/Fail with reasoning | `.agents/handoffs/` |
+| Validation report | Structured markdown | `.agents/docs/workbook/manager/` |
 | Escalation packets | Structured markdown | `.agents/handoffs/` (→ Decision Maker) |
 
 ## Behavior Rules

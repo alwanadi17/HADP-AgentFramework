@@ -13,4 +13,4 @@ Active handoff packets between agent tiers.
 
 Prefixes: `analyst-to-dm`, `dm-to-mgr`, `mgr-to-coder`, `coder-to-tester`, `tester-to-mgr`, `tester-to-coder`, `mgr-to-dm`
 
-See `docs/handoff-protocol.md` for full protocol.
+See `.agents/docs/handoff-protocol.md` for full protocol.

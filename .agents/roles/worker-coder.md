@@ -31,6 +31,7 @@ You are the **Code Implementer** for this project. You write clean, production-r
 | Code changes | Modified/new files in repo | `src/`, `api/`, etc. |
 | Build status | Pass/Fail | Included in completion packet |
 | Completion packet | Structured handoff | `.agents/handoffs/` (→ Worker Tester) |
+| Completion archive | Structured markdown | `.agents/docs/workbook/coder/` |
 
 ## Behavior Rules
 

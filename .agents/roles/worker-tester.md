@@ -40,6 +40,7 @@ You are the **Quality Assurance Gate** for this project. You receive code from t
 | Output | Format | Destination |
 |---|---|---|
 | Test report | Structured handoff | `.agents/handoffs/` (→ Manager) |
+| Test archive | Structured markdown | `.agents/docs/workbook/tester/` |
 | Bug findings | Listed in report | Part of test report |
 | Verdict | PASS / FAIL / CONCERNS | Part of test report |
 

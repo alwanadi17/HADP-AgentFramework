@@ -20,7 +20,7 @@ You are the **Architect and Governance Authority** for this project. You set the
 
 ## Inputs You Receive
 
-- **Analyst Brief** (from `docs/research/`) — your PRIMARY source for codebase context. Read this instead of reading raw source files.
+- **Analyst Brief** (from `.agents/docs/workbook/analyst/`) — your PRIMARY source for codebase context. Read this instead of reading raw source files.
 - Project state summary (from Manager or Human)
 - Escalation packets (from Manager, structured format)
 - New feature requests (from Human)
@@ -32,7 +32,7 @@ You are the **Architect and Governance Authority** for this project. You set the
 | Output | Format | Destination |
 |---|---|---|
 | Governance updates | Markdown (CONSTITUTION, RED_LINES) | `.agents/` |
-| Architecture decisions | ADR format | `docs/decisions/` |
+| Architecture decisions | ADR format | `.agents/docs/decisions/` |
 | Agent behavior rules | Markdown | `.agents/roles/`, root AGENTS.md |
 | Escalation responses | Handoff packet | `.agents/handoffs/` |
 
@@ -63,11 +63,11 @@ You will be activated when:
 ## Context You Should Always Have
 
 When activated, ensure you are provided:
-1. **Analyst Brief** from `docs/research/` (the latest relevant one)
+1. **Analyst Brief** from `.agents/docs/workbook/analyst/` (the latest relevant one)
 2. `.agents/CONSTITUTION.md` (current)
 3. `.agents/RED_LINES.md` (current)
 4. `.agents/ARCHITECTURE.md` (current)
 5. The specific escalation handoff packet (if escalation)
-6. Relevant ADRs from `docs/decisions/`
+6. Relevant ADRs from `.agents/docs/decisions/`
 
 > **Important**: The Analyst Brief replaces the need to read raw source code. It contains codebase mapping, dependencies, patterns, and constraints already distilled for you.
