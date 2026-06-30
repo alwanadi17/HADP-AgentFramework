@@ -12,6 +12,7 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
 | Tier | Role | Model | Fungsi |
 |---|---|---|---|
 | 0 | **Analyst** (on-demand) | Long-context, high-volume | Research, codebase mapping, structured briefs |
+| 0b | **Auditor** (on-demand) | High-reasoning | Compliance audit, decision review, process assurance |
 | 1 | **Decision Maker** | High-reasoning | Governance, arsitektur, keputusan |
 | 2 | **Manager** | Balanced intelligence | Task decomposition, delegasi, validasi |
 | 3a | **Worker Coder** | Coding-focused | Implementasi kode |
@@ -32,9 +33,9 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
 ├── CONSTITUTION.md                ← Identitas & filosofi project
 ├── RED_LINES.md                   ← Hard constraints (baca SEBELUM setiap task)
 ├── ARCHITECTURE.md                ← Tech stack & data flow
-├── AGENTS.md                      ← ← ANDA DISINI — Manual Book
 ├── roles/                         ← Definisi peran setiap agent
 │   ├── analyst.md
+│   ├── auditor.md
 │   ├── decision-maker.md
 │   ├── manager.md
 │   ├── worker-coder.md
@@ -49,6 +50,7 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
 │   │   └── triggers.md            ← Trigger setiap transisi
 │   ├── workbook/                  ← LAPORAN per role (arsip)
 │   │   ├── analyst/
+│   │   ├── auditor/
 │   │   ├── decision-maker/
 │   │   ├── manager/
 │   │   ├── coder/
@@ -58,6 +60,12 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
 │   │   └── audit-trail.md
 │   └── decisions/                 ← Architecture Decision Records (ADR)
 │       └── _template.md
+
+[ROOT PROJECT]                     ← PABRIK — source code production
+├── AGENTS.md                      ← Manual Book (entry point — ANDA DISINI)
+├── PLAN.md                        ← Task checklist
+├── README.md
+└── src/                           ← Production code
 ```
 
 ---
@@ -65,6 +73,10 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
 ## 🔄 Alur Kerja Singkat
 
 ```
+                    ┌─── [Auditor] (on-demand) ───┐
+                    │         ↑    ↑       ↑       │
+                    │         │    │       │       │
+                    ▼         │    │       │       │
 Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker Tester → Manager → Human
          (opsional)                                    ↓              ↓
                                                   build pass    test report
@@ -109,7 +121,7 @@ npm run test     # Run tests
 ```
 {direction}_{task-id}_{YYYYMMDD}.md
 ```
-Prefix: `analyst-to-dm`, `dm-to-mgr`, `mgr-to-coder`, `coder-to-tester`, `tester-to-mgr`, `tester-to-coder`, `mgr-to-dm`
+Prefix: `analyst-to-dm`, `auditor-to-dm`, `auditor-to-mgr`, `dm-to-mgr`, `mgr-to-coder`, `coder-to-tester`, `tester-to-mgr`, `tester-to-coder`, `mgr-to-dm`
 
 ### Naming Convention Workbook
 ```
@@ -127,6 +139,7 @@ Contoh: `docs/workbook/coder/20260630_TASK-001_completion.md`
 | Task States | `.agents/docs/workflow/states.md` | State machine task |
 | Triggers | `.agents/docs/workflow/triggers.md` | Trigger setiap transisi |
 | Handoff Protocol | `.agents/docs/handoff-protocol.md` | Format komunikasi antar agent |
+| Auditor Role | `.agents/roles/auditor.md` | Definisi peran Auditor |
 | Workbook Templates | `.agents/docs/workbook/{role}/_template.md` | Template laporan per role |
 | ADR Template | `.agents/docs/decisions/_template.md` | Template keputusan arsitektur |
 

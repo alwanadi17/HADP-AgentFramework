@@ -11,6 +11,7 @@ Every transition between roles is triggered by a specific event. This document d
 | # | From | To | Trigger | Condition | Artifact |
 |---|---|---|---|---|---|
 | T0 | Human | Analyst | Research request | Vague requirement needs analysis | Chat message |
+| T0b | Human | Auditor | Audit request | Need compliance check or decision review | Chat message |
 | T1 | Human | Decision Maker | Feature request / Escalation | Clear requirement or escalation packet | Chat message + handoff |
 | T2 | Decision Maker | Manager | Governance update / Task directive | ADR written or governance changed | `.agents/docs/decisions/ADR-XXX.md` |
 | T3 | Manager | Worker Coder | Task assignment | Task decomposed, criteria defined | `.agents/handoffs/mgr-to-coder_TASK-XXX_YYYYMMDD.md` |
@@ -24,6 +25,12 @@ Every transition between roles is triggered by a specific event. This document d
 ---
 
 ## Detailed Trigger Definitions
+
+### T0b: Human → Auditor
+**When**: Human needs an independent review of compliance, decisions, or process
+**Input**: "Auditor, review this ADR" or "Auditor, check this handoff packet"
+**Output**: Audit Report → `.agents/docs/workbook/auditor/YYYYMMDD_TASK-XXX_audit.md`
+**Note**: Optional step. Auditor is advisory — does not block or approve.
 
 ### T0: Human → Analyst
 **When**: Human needs deep research before decision making

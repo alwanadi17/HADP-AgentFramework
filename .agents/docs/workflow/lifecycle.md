@@ -3,6 +3,10 @@
 ## High-Level Flow
 
 ```
+                    ┌─── [AUDITOR] (on-demand) ───┐
+                    │         ↑    ↑       ↑       │
+                    │         │    │       │       │
+                    ▼         │    │       │       │
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        HUMAN TRIGGER                                │
 │  Feature Request / Bug Report / Task Assignment                     │
@@ -71,6 +75,7 @@
 | Tier | Role | Does | Does NOT |
 |---|---|---|---|
 | 0 | Analyst | Read, map, summarize | Decide, code, plan |
+| 0b | Auditor | Audit compliance, review decisions | Code, decide, enforce |
 | 1 | Decision Maker | Govern, architect, decide | Code, decompose tasks |
 | 2 | Manager | Plan, delegate, validate | Code, modify governance |
 | 3a | Worker Coder | Implement code | Test own work, govern |
