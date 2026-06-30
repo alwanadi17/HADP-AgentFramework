@@ -1,68 +1,68 @@
 # 📘 HADP Manual Book — Hierarchical Agentic Development Pipeline
 
-> **Kantor (`.agents/`) vs Pabrik (root project)**
-> Semua urusan governance, workflow, dan laporan ada di `.agents/`. Source code production ada di root project.
+> **Office (`.agents/`) vs Factory (root project)**
+> All governance, workflow, and reports go in `.agents/`. Production source code lives in the root project.
 
 ---
 
 ## 🏛️ Model: Hierarchical Agentic Development Pipeline (HADP)
 
-HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier hierarkis** yang memisahkan **thinking** dari **doing**:
+HADP is an AI agent-based software development model with **5 hierarchical tiers** that separates **thinking** from **doing**:
 
-| Tier | Role | Model | Fungsi |
+| Tier | Role | Model | Function |
 |---|---|---|---|
 | 0 | **Analyst** (on-demand) | Long-context, high-volume | Research, codebase mapping, structured briefs |
 | 0b | **Auditor** (on-demand) | High-reasoning | Compliance audit, decision review, process assurance |
-| 1 | **Decision Maker** | High-reasoning | Governance, arsitektur, keputusan |
-| 2 | **Manager** | Balanced intelligence | Task decomposition, delegasi, validasi |
-| 3a | **Worker Coder** | Coding-focused | Implementasi kode |
-| 3b | **Worker Tester** | Token-efficient | Testing & verifikasi |
+| 1 | **Decision Maker** | High-reasoning | Governance, architecture, decisions |
+| 2 | **Manager** | Balanced intelligence | Task decomposition, delegation, validation |
+| 3a | **Worker Coder** | Coding-focused | Code implementation |
+| 3b | **Worker Tester** | Token-efficient | Testing & verification |
 
-### Prinsip Utama
-- **Separation of Concerns** — Setiap tier melakukan SATU hal. Tidak ada overlap.
-- **Gate System** — Setiap transisi butuh handoff packet. Tidak boleh lompat.
-- **Token Efficiency** — Analyst baca sekali, Decision Maker tidak perlu baca source code.
-- **Fail Fast** — Coder gagal build → lapor langsung. Tester temukan issue → loop back.
+### Key Principles
+- **Separation of Concerns** — Each tier does ONE thing. No overlap.
+- **Gate System** — Every transition requires a handoff packet. No skipping.
+- **Token Efficiency** — Analyst reads once, Decision Maker doesn't need to read source code.
+- **Fail Fast** — Coder build fails → report immediately. Tester finds issue → loop back.
 
 ---
 
-## 🏢 Struktur Kantor (`.agents/`)
+## 🏢 Office Structure (`.agents/`)
 
 ```
-.agents/                           ← KANTOR — semua urusan agent
-├── CONSTITUTION.md                ← Identitas & filosofi project
-├── RED_LINES.md                   ← Hard constraints (baca SEBELUM setiap task)
+.agents/                           ← OFFICE — all agent affairs
+├── CONSTITUTION.md                ← Project identity & philosophy
+├── RED_LINES.md                   ← Hard constraints (read BEFORE every task)
 ├── ARCHITECTURE.md                ← Tech stack & data flow
-├── roles/                         ← Definisi peran setiap agent
+├── roles/                         ← Role definitions for each agent
 │   ├── analyst.md
 │   ├── auditor.md
 │   ├── decision-maker.md
 │   ├── manager.md
 │   ├── worker-coder.md
 │   └── worker-tester.md
-├── handoffs/                      ← Handoff packets antar agent (aktif)
+├── handoffs/                      ← Handoff packets between agents (active)
 │   └── README.md
-├── docs/                          ← Dokumentasi workflow & laporan
-│   ├── handoff-protocol.md        ← Protokol komunikasi antar agent
+├── docs/                          ← Workflow documentation & reports
+│   ├── handoff-protocol.md        ← Communication protocol between agents
 │   ├── workflow/
 │   │   ├── lifecycle.md           ← High-level flow diagram
 │   │   ├── states.md              ← Task lifecycle states
-│   │   └── triggers.md            ← Trigger setiap transisi
-│   ├── workbook/                  ← LAPORAN per role (arsip)
+│   │   └── triggers.md            ← Triggers for each transition
+│   ├── workbook/                  ← REPORTS per role (archive)
 │   │   ├── analyst/
 │   │   ├── auditor/
 │   │   ├── decision-maker/
 │   │   ├── manager/
 │   │   ├── coder/
 │   │   └── tester/
-│   ├── reports/                   ← Laporan agregat
+│   ├── reports/                   ← Aggregate reports
 │   │   ├── sprint-review.md
 │   │   └── audit-trail.md
 │   └── decisions/                 ← Architecture Decision Records (ADR)
 │       └── _template.md
 
-[ROOT PROJECT]                     ← PABRIK — source code production
-├── AGENTS.md                      ← Manual Book (entry point — ANDA DISINI)
+[ROOT PROJECT]                     ← FACTORY — production source code
+├── AGENTS.md                      ← Manual Book (entry point — YOU ARE HERE)
 ├── PLAN.md                        ← Task checklist
 ├── README.md
 └── src/                           ← Production code
@@ -70,7 +70,7 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
 
 ---
 
-## 🔄 Alur Kerja Singkat
+## 🔄 Quick Workflow
 
 ```
                     ┌─── [Auditor] (on-demand) ───┐
@@ -78,21 +78,21 @@ HADP adalah model pengembangan perangkat lunak berbasis AI agent dengan **5 tier
                     │         │    │       │       │
                     ▼         │    │       │       │
 Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker Tester → Manager → Human
-         (opsional)                                    ↓              ↓
+         (optional)                                    ↓              ↓
                                                   build pass    test report
 ```
 
 ### Step by Step:
-1. **Human** → memberikan feature request / task
-2. **Analyst** (opsional) → riset, mapping codebase, output ke `workbook/analyst/`
-3. **Decision Maker** → baca brief, buat keputusan, update governance, tulis ADR
-4. **Manager** → breakdown task, buat handoff packet → `handoffs/mgr-to-coder_*.md`
-5. **Worker Coder** → implementasi, build check, buat completion packet
-6. **Worker Tester** → verifikasi, test, buat test report
+1. **Human** → submits feature request / task
+2. **Analyst** (optional) → research, codebase mapping, output to `workbook/analyst/`
+3. **Decision Maker** → read brief, make decisions, update governance, write ADR
+4. **Manager** → decompose tasks, create handoff packet → `handoffs/mgr-to-coder_*.md`
+5. **Worker Coder** → implement, build check, create completion packet
+6. **Worker Tester** → verify, test, create test report
 7. **Manager** → macro validation, PASS / FAIL / ESCALATE
-8. **Human** → review final, merge
+8. **Human** → final review, merge
 
-> Detail lengkap: `.agents/docs/workflow/lifecycle.md`
+> Full details: `.agents/docs/workflow/lifecycle.md`
 
 ---
 
@@ -106,16 +106,16 @@ npm run lint     # Lint check
 npm run test     # Run tests
 ```
 
-### Critical Files (wajib dibaca sebelum task)
-| File | Path | Kapan Dibaca |
+### Critical Files (must read before task)
+| File | Path | When to Read |
 |---|---|---|
-| Manual Book | `AGENTS.md` | Setiap awal chat |
-| Hard Constraints | `.agents/RED_LINES.md` | Sebelum setiap task |
-| Project Identity | `.agents/CONSTITUTION.md` | Sebelum task pertama |
-| Tech Stack | `.agents/ARCHITECTURE.md` | Sebelum task pertama |
-| Role Definition | `.agents/roles/{role}.md` | Saat diassign sebagai role tsb |
-| Area Rules | `{area}/AGENTS.md` | Sebelum menyentuh area tsb |
-| Task Plan | `PLAN.md` | Cek task dependencies |
+| Manual Book | `AGENTS.md` | Every chat start |
+| Hard Constraints | `.agents/RED_LINES.md` | Before every task |
+| Project Identity | `.agents/CONSTITUTION.md` | Before first task |
+| Tech Stack | `.agents/ARCHITECTURE.md` | Before first task |
+| Role Definition | `.agents/roles/{role}.md` | When assigned to that role |
+| Area Rules | `{area}/AGENTS.md` | Before touching that area |
+| Task Plan | `PLAN.md` | Check task dependencies |
 
 ### Naming Convention Handoff Packets
 ```
@@ -127,41 +127,41 @@ Prefix: `analyst-to-dm`, `auditor-to-dm`, `auditor-to-mgr`, `dm-to-mgr`, `mgr-to
 ```
 docs/workbook/{role}/YYYYMMDD_TASK-XXX_{type}.md
 ```
-Contoh: `docs/workbook/coder/20260630_TASK-001_completion.md`
+Example: `docs/workbook/coder/20260630_TASK-001_completion.md`
 
 ---
 
-## 📚 Dokumen Terkait
+## 📚 Related Documents
 
-| Dokumen | Path | Isi |
+| Document | Path | Description |
 |---|---|---|
-| Workflow Lifecycle | `.agents/docs/workflow/lifecycle.md` | Diagram alur lengkap |
-| Task States | `.agents/docs/workflow/states.md` | State machine task |
-| Triggers | `.agents/docs/workflow/triggers.md` | Trigger setiap transisi |
-| Handoff Protocol | `.agents/docs/handoff-protocol.md` | Format komunikasi antar agent |
-| Severity System | `.agents/docs/framework/severity-system.md` | Standar severity untuk semua role |
-| Artifact Contracts | `.agents/docs/framework/artifact-contracts.md` | Kontrak validasi untuk setiap artifact |
-| Auditor Role | `.agents/roles/auditor.md` | Definisi peran Auditor |
-| Workbook Templates | `.agents/docs/workbook/{role}/_template.md` | Template laporan per role |
-| ADR Template | `.agents/docs/decisions/_template.md` | Template keputusan arsitektur |
+| Workflow Lifecycle | `.agents/docs/workflow/lifecycle.md` | Full flow diagram |
+| Task States | `.agents/docs/workflow/states.md` | Task state machine |
+| Triggers | `.agents/docs/workflow/triggers.md` | Triggers for each transition |
+| Handoff Protocol | `.agents/docs/handoff-protocol.md` | Communication format between agents |
+| Severity System | `.agents/docs/framework/severity-system.md` | Severity standards for all roles |
+| Artifact Contracts | `.agents/docs/framework/artifact-contracts.md` | Validation contracts for each artifact |
+| Auditor Role | `.agents/roles/auditor.md` | Auditor role definition |
+| Workbook Templates | `.agents/docs/workbook/{role}/_template.md` | Report templates per role |
+| ADR Template | `.agents/docs/decisions/_template.md` | Architecture decision template |
 
 ---
 
-## ⚙️ Aturan untuk Semua Agent
+## ⚙️ Rules for All Agents
 
 ### DO
-- Baca `RED_LINES.md` sebelum memulai task apapun
-- Baca area-specific `AGENTS.md` sebelum menyentuh file di area tersebut
-- Ikuti acceptance criteria dari Manager
-- Report honestly — jika ada masalah, katakan
-- Gunakan naming convention yang sudah ditetapkan
+- Read `RED_LINES.md` before starting any task
+- Read area-specific `AGENTS.md` before touching files in that area
+- Follow acceptance criteria from Manager
+- Report honestly — if there is a problem, say so
+- Use established naming conventions
 
 ### DON'T
-- Jangan modify governance files tanpa approval Decision Maker
-- Jangan skip handoff packets — setiap transisi WAJIB ada artifact
-- Jangan lompat tier — urutan harus sesuai hierarki
-- Jangan test own work (Coder) atau code (Tester)
-- Jangan buat file di luar scope task tanpa approval
+- Do not modify governance files without Decision Maker approval
+- Do not skip handoff packets — every transition MUST have an artifact
+- Do not skip tiers — order must follow hierarchy
+- Do not test own work (Coder) nor code (Tester)
+- Do not create files outside task scope without approval
 
 ---
 
