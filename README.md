@@ -17,6 +17,7 @@ A reusable template for **multi-tier AI-assisted project development** using the
 .reusable_template/
 ├── README.md                         ← You are here
 ├── AGENTS.md                         ← HADP Manual Book (entry point)
+├── RTK.md                            ← Token-optimized CLI command guide (read by all roles)
 ├── PLAN.md                           ← Task checklist template
 │
 ├── .agents/                          ← 🏢 OFFICE (governance & workflow)
