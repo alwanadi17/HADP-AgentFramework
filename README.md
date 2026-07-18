@@ -198,14 +198,14 @@ Planned milestones to evolve the HADP framework. Each milestone is a standalone 
 
 ---
 
-### Milestone 6: Framework Documentation Overhaul
+### Milestone 6: Framework Documentation Overhaul ✅
 **Goal**: Complete, structured framework documentation.
 
 | Task | Deliverable | Status |
 |---|---|---|
-| Create `framework-overview.md` in `.agents/docs/framework/` | HADP architecture overview | ❌ |
-| Create `glossary.md` | Term definitions (HADP, handoff, workbook, etc.) | ❌ |
-| Update `AGENTS.md` — add links to framework docs | Manual Book update | ❌ |
+| Create `framework-overview.md` in `.agents/docs/framework/` | HADP architecture overview | ✅ |
+| Create `glossary.md` | Term definitions (HADP, handoff, workbook, etc.) | ✅ |
+| Update `AGENTS.md` — add links to framework docs | Manual Book update | ✅ |
 
 ---
 
@@ -217,4 +217,4 @@ Milestone 1 (Rubric) → Milestone 2 (Contracts) → Milestone 3 (Registry)
 Milestone 4 (Playbooks) → Milestone 5 (Tooling) → Milestone 6 (Docs)
 ```
 
-**Start with Milestone 1** — the Auditor role exists but lacks the tools to work optimally.
+**All 6 milestones complete.** The v2.0 roadmap is done — Auditor has both a scoring rubric and blocking automated tooling, every artifact has a validation contract, tasks are traceable end-to-end, every role has an activation playbook, compliance is enforced automatically at the Manager's PASS gate, and the framework is documented top-to-bottom (`.agents/docs/framework/framework-overview.md` is the new entry point for architecture questions).

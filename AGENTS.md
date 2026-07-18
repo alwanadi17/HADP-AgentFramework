@@ -2,6 +2,8 @@
 
 > **Office (`.agents/`) vs Factory (root project)**
 > All governance, workflow, and reports go in `.agents/`. Production source code lives in the root project.
+>
+> **New to HADP?** This doc is the quick-reference. For the full architecture explainer — why each tier exists, how the gate system works, how the quality framework fits together — read `.agents/docs/framework/framework-overview.md` first. Unfamiliar term? Check `.agents/docs/framework/glossary.md`.
 
 ---
 
@@ -137,6 +139,8 @@ Example: `docs/workbook/coder/20260630_TASK-001_completion.md`
 
 | Document | Path | Description |
 |---|---|---|
+| **Framework Overview** | `.agents/docs/framework/framework-overview.md` | Start here — how HADP's pieces fit together |
+| **Glossary** | `.agents/docs/framework/glossary.md` | Term definitions |
 | Workflow Lifecycle | `.agents/docs/workflow/lifecycle.md` | Full flow diagram |
 | Task States | `.agents/docs/workflow/states.md` | Task state machine |
 | Triggers | `.agents/docs/workflow/triggers.md` | Triggers for each transition |
