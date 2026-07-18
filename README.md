@@ -186,14 +186,15 @@ Planned milestones to evolve the HADP framework. Each milestone is a standalone 
 
 ---
 
-### Milestone 5: Automation Tooling
+### Milestone 5: Automation Tooling ✅
 **Goal**: CLI script to validate framework structure and compliance.
 
 | Task | Deliverable | Status |
 |---|---|---|
-| Create `scripts/hadp-check.js` | Validation script | ❌ |
-| Add `npm run hadp:check` to `AGENTS.md` | Command update | ❌ |
-| Create `.agents/docs/framework/validation-rules.md` | Rules documentation | ❌ |
+| Create `scripts/hadp-check.js` | Validation script | ✅ |
+| Add `npm run hadp:check` to `AGENTS.md` | Command update | ✅ |
+| Create `.agents/docs/framework/validation-rules.md` | Rules documentation | ✅ |
+| Wire `hadp:check` as mandatory gate at Manager's PASS verdict (T5b) | `manager.md`, `auditor.md`, `call-auditor.md`, `triggers.md`, `states.md`, `artifact-contracts.md` updates | ✅ |
 
 ---
 

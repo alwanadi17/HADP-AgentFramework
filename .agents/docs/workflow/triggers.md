@@ -17,7 +17,8 @@ Every transition between roles is triggered by a specific event. This document d
 | T3 | Manager | Worker Coder | Task assignment | Task decomposed, criteria defined | `.agents/handoffs/mgr-to-coder_TASK-XXX_YYYYMMDD.md` |
 | T4 | Worker Coder | Worker Tester | Implementation complete | Build passes (✅) | `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md` |
 | T5 | Worker Tester | Manager | Test report ready | Verdict: PASS / FAIL / CONCERNS | `.agents/handoffs/tester-to-mgr_TASK-XXX_YYYYMMDD.md` |
-| T6 | Manager | Human | Final validation | Verdict: PASS | Chat message + summary |
+| T5b | Manager | Auditor (subagent) → Manager | Automated Compliance Check | **Mandatory**, every task, before PASS verdict | `npm run hadp:check` exit code + findings |
+| T6 | Manager | Human | Final validation | Verdict: PASS (requires T5b passed) | Chat message + summary |
 | T7 | Manager | Worker Coder | Retry | Verdict: FAIL (retry < 3) | Updated handoff packet |
 | T8 | Manager | Decision Maker | Escalation | Verdict: ESCALATE or 3x fail | `.agents/handoffs/mgr-to-dm_TASK-XXX_YYYYMMDD.md` |
 | T9 | Worker Tester | Worker Coder | Direct fail | Critical issue found | `.agents/handoffs/tester-to-coder_TASK-XXX_YYYYMMDD.md` |
@@ -30,7 +31,7 @@ Every transition between roles is triggered by a specific event. This document d
 **When**: Human needs an independent review of compliance, decisions, or process
 **Input**: "Auditor, review this ADR" or "Auditor, check this handoff packet"
 **Output**: Audit Report → `.agents/docs/workbook/auditor/YYYYMMDD_TASK-XXX_audit.md`
-**Note**: Optional step. Auditor is advisory — does not block or approve.
+**Note**: Optional step. This is a **Full Audit** — advisory, does not block or approve. Not to be confused with T5b (Automated Compliance Check), which is mandatory and does block.
 **For decision audits**: Use the Decision Quality Rubric (`.agents/docs/framework/decision-quality-rubric.md`) to score across 6 dimensions (reversibility, blast radius, coupling, operational cost, security, simplicity). Include the scoring table in the audit report.
 
 ### T0: Human → Analyst
@@ -80,8 +81,16 @@ Every transition between roles is triggered by a specific event. This document d
 - Edge cases checked
 - Verdict: PASS / FAIL / CONCERNS
 
+### T5b: Manager → Auditor (subagent) → Manager
+**When**: Every task, before the Manager can issue a PASS verdict — **mandatory, not optional**
+**Input**: Instruction to run `npm run hadp:check`
+**Model**: Sonnet-tier subagent is sufficient (deterministic script run, no judgment required) — see `.agents/roles/auditor.md` → "Two Modes of Operation"
+**Output**: Exit code + findings (🚫 BLOCKER / 🔴 HIGH / 🟡 MEDIUM / 🔵 LOW / ⚪ INFO), reported back verbatim to Manager
+**Blocking rule**: 🚫 BLOCKER or 🔴 HIGH findings block PASS — Manager must route back via T7 (retry) or T8 (escalate if recurring). 🟡 MEDIUM/🔵 LOW/⚪ INFO don't block.
+**Note**: This is distinct from T0b — T0b is an optional, human-triggered, advisory Full Audit; T5b is a mandatory, Manager-triggered, blocking Automated Compliance Check. See `.agents/docs/framework/validation-rules.md` for the rule spec.
+
 ### T6: Manager → Human
-**When**: Macro validation passes
+**When**: Macro validation passes AND T5b (Automated Compliance Check) passed
 **Output**: Summary report with:
 - What was done
 - Test results
@@ -115,8 +124,9 @@ Every transition between roles is triggered by a specific event. This document d
 1. **No skipping tiers**: Every transition must go through the proper chain
 2. **Artifact required**: No transition without the corresponding handoff packet
 3. **Build gate**: Coder → Tester requires build pass
-4. **Retry limit**: Max 3 retries per Coder per task
-5. **Escalation final**: Once escalated, Decision Maker's decision is binding
+4. **Compliance gate**: Manager → Human (T6/PASS) requires `npm run hadp:check` to pass (T5b) — no BLOCKER/HIGH findings
+5. **Retry limit**: Max 3 retries per Coder per task
+6. **Escalation final**: Once escalated, Decision Maker's decision is binding
 
 ## Reference
 - `.agents/docs/workflow/lifecycle.md` — high-level flow

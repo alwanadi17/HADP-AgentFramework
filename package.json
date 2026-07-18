@@ -1,0 +1,9 @@
+{
+  "name": "hadp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HADP — Hierarchical Agentic Development Pipeline template",
+  "scripts": {
+    "hadp:check": "node scripts/hadp-check.js"
+  }
+}

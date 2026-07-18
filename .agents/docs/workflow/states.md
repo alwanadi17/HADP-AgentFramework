@@ -52,7 +52,7 @@ TODO ──→ CODING ──→ TESTING ──→ IN_REVIEW ──→ DONE
 
 ### IN_REVIEW → DONE
 - Trigger: Manager approves
-- Condition: All checks pass
+- Condition: All checks pass, **including a mandatory `npm run hadp:check` run (T5b, see `.agents/docs/workflow/triggers.md`)** — 🚫 BLOCKER/🔴 HIGH findings block this transition
 
 ### IN_REVIEW → FAIL
 - Trigger: Manager rejects

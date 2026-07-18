@@ -100,10 +100,11 @@ Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker T
 
 ### Commands
 ```bash
-npm run dev      # Start dev server
-npm run build    # Production build (MUST pass before shipping)
-npm run lint     # Lint check
-npm run test     # Run tests
+npm run dev        # Start dev server
+npm run build      # Production build (MUST pass before shipping)
+npm run lint       # Lint check
+npm run test       # Run tests
+npm run hadp:check # Framework compliance check — mandatory before Manager's PASS verdict (see triggers.md T5b)
 ```
 
 ### Critical Files (must read before task)
@@ -142,6 +143,8 @@ Example: `docs/workbook/coder/20260630_TASK-001_completion.md`
 | Handoff Protocol | `.agents/docs/handoff-protocol.md` | Communication format between agents |
 | Severity System | `.agents/docs/framework/severity-system.md` | Severity standards for all roles |
 | Artifact Contracts | `.agents/docs/framework/artifact-contracts.md` | Validation contracts for each artifact |
+| Validation Rules | `.agents/docs/framework/validation-rules.md` | `hadp:check` rule spec |
+| Decision Quality Rubric | `.agents/docs/framework/decision-quality-rubric.md` | ADR quality scoring (6 dimensions) |
 | Auditor Role | `.agents/roles/auditor.md` | Auditor role definition |
 | Workbook Templates | `.agents/docs/workbook/{role}/_template.md` | Report templates per role |
 | ADR Template | `.agents/docs/decisions/_template.md` | Architecture decision template |

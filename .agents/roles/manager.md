@@ -91,6 +91,13 @@ When reviewing Worker Tester's report, perform **macro validation**:
 6. ✅ Both Coder and Tester handoff packets are complete and structured?
 7. ✅ If CONCERNS: are they acceptable or do they need Coder fixes?
 
+### Automated Compliance Check (Mandatory Gate)
+Before issuing a **PASS** verdict, run `npm run hadp:check` — this is a hard blocker, not optional:
+- **Delegate execution**: dispatch this to a lightweight Auditor subagent (Sonnet-tier is sufficient — this is a deterministic script run, not a judgment call, so it doesn't need a high-reasoning model). See `.agents/docs/playbooks/call-auditor.md` → "Automated Compliance Check."
+- **Blocking rule**: if `hadp:check` exits non-zero (🚫 BLOCKER or 🔴 HIGH findings present), the verdict **cannot** be PASS. Route back to the relevant Worker via T7 (retry) or escalate via T8 if it recurs.
+- **Non-blocking findings**: 🟡 MEDIUM / 🔵 LOW / ⚪ INFO findings don't block PASS — apply normal judgment on whether to fix now or defer.
+- Rule spec: `.agents/docs/framework/validation-rules.md`. This automates (not replaces) the Artifact Contract Validation checklist below — it does not remove your obligation to also apply architectural/scope judgment.
+
 ### Artifact Contract Validation
 Before approving any handoff, verify the artifact contract is satisfied (see `.agents/docs/framework/artifact-contracts.md`):
 1. ✅ Does the artifact type match the expected contract (e.g., `coder_completion` for Coder handoff)?

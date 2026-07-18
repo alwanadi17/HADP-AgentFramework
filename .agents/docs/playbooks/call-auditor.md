@@ -75,15 +75,40 @@ Call the Auditor when you need **independent compliance checks, decision reviews
 | Audit Report | Structured markdown (per workbook template) | Permanent record of findings |
 | Verbal Summary | Chat response | Immediate understanding for Human |
 
-## Special: Auditor for Manager Validation
+## Special: Automated Compliance Check (Mandatory)
 
-When the Manager wants a second opinion on a task verdict (PASS/FAIL/CONCERNS), the Auditor can:
+Unlike every other Auditor invocation, this one is **not optional**. Before the Manager can issue a PASS verdict on any task (the `IN_REVIEW → DONE` transition), the Manager MUST delegate this check — see `.agents/roles/manager.md` → "Automated Compliance Check" and `.agents/docs/workflow/states.md`.
+
+- **Trigger**: Manager, every task, before PASS — not human-initiated, not on-demand
+- **Model**: Sonnet-tier subagent is sufficient — this is a deterministic script run (`npm run hadp:check`), not a judgment call. Keeps the Manager's own context light by delegating the mechanical part.
+- **What the subagent does**:
+  1. Run `npm run hadp:check`
+  2. Report the exit code and findings verbatim back to the Manager (PASS/FAIL, plus any 🚫 BLOCKER / 🔴 HIGH / 🟡 MEDIUM / 🔵 LOW / ⚪ INFO findings)
+- **What it does NOT do**: it does not decide PASS/FAIL/ESCALATE — that verdict stays with the Manager. It also does not perform judgment review (ADR soundness, architecture fit) — that's a **Full Audit**, called separately and only on-demand.
+- **Blocking rule**: 🚫 BLOCKER or 🔴 HIGH findings hard-block PASS. 🟡 MEDIUM/🔵 LOW/⚪ INFO don't block — Manager applies normal judgment.
+- **Rule spec**: `.agents/docs/framework/validation-rules.md`
+
+### Minimal Invocation (for the compliance-check subagent)
+
+```markdown
+## Auditor Activation — Automated Compliance Check
+
+### Task ID: TASK-XXX
+### Command: npm run hadp:check
+### Report back: exit code + full findings list, verbatim
+```
+
+## Special: Auditor for Manager Validation (Full Audit, Optional)
+
+When the Manager wants a **second opinion** on a task verdict (PASS/FAIL/CONCERNS) beyond what the automated check covers, the Auditor can:
 
 1. Verify the Tester's test report is complete and consistent
 2. Check the Coder's completion packet for format compliance
 3. Validate that all acceptance criteria were addressed
 4. Confirm the task index was updated appropriately
 5. Provide an independent recommendation
+
+This remains on-demand and advisory — use the standard invocation template above, with a high-reasoning model.
 
 ---
 

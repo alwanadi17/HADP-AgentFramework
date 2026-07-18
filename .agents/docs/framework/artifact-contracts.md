@@ -189,6 +189,7 @@ required_fields:
   - coder_completion_ref — link to coder handoff
   - tester_report_ref — link to tester handoff
   - validation_checklist — completed checklist
+  - hadp_check_result — PASS / FAIL — result of the mandatory `npm run hadp:check` run (T5b, see triggers.md)
   - final_verdict — PASS / FAIL / ESCALATE
 valid_statuses:
   - PASS
@@ -196,6 +197,7 @@ valid_statuses:
   - ESCALATE
 validation_rules:
   - PASS requires all validation checklist items checked
+  - PASS requires hadp_check_result = PASS (no 🚫 BLOCKER / 🔴 HIGH findings) — see validation-rules.md
   - ESCALATE requires escalation reason documented
   - Must reference both Coder and Tester handoff packets
 ```
@@ -269,5 +271,5 @@ Artifact created → Self-check against contract → Handoff to next role
 
 - Defined in: `.agents/docs/framework/artifact-contracts.md`
 - Used by: All roles producing artifacts
-- Validation: Self-check by producer, spot-check by Auditor
+- Validation: Self-check by producer, spot-check by Auditor, automated gate via `.agents/docs/framework/validation-rules.md`
 - Related: `.agents/docs/framework/severity-system.md`
