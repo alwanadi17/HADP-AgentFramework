@@ -33,7 +33,7 @@ HADP has 6 tiers: 4 that participate in every task, and 2 that are on-demand sup
 
 **Note on the Auditor (Tier 0b)**: since Milestone 5, the Auditor tier covers two genuinely different jobs, not one. See `.agents/roles/auditor.md` → "Two Modes of Operation":
 - **Full Audit** — on-demand, human-triggered, advisory only, high-reasoning model. Judgment calls: is this ADR sound, was the process followed.
-- **Automated Compliance Check** — mandatory, Manager-triggered on every task before PASS, blocking, Sonnet-tier model is sufficient because it's just running `npm run hadp:check` and reporting the result. Not a judgment call.
+- **Automated Compliance Check** — mandatory, blocking, Sonnet-tier model is sufficient because it's just running `npm run hadp:check` and reporting the result. Not a judgment call. Since Milestone 7, this runs twice: a per-task self-check by Worker Coder (fast feedback), and Manager's cumulative final gate before PASS.
 
 ## Office vs. Factory
 
@@ -60,7 +60,7 @@ TODO → CODING → TESTING → IN_REVIEW → DONE
         FAIL   CONCERNS    ESCALATED
 ```
 
-Each arrow is a **trigger** (`.agents/docs/workflow/triggers.md`, T0–T9) with a defined condition and required artifact. The one gate every task must clear before `DONE` is `IN_REVIEW → DONE`, which since Milestone 5 requires **both** Manager's macro validation **and** a passing `npm run hadp:check` (trigger T5b) — see `.agents/docs/framework/validation-rules.md` for exactly what that script checks.
+Each arrow is a **trigger** (`.agents/docs/workflow/triggers.md`, T0–T9, T5b) with a defined condition and required artifact. The one gate every task must clear before `DONE` is `IN_REVIEW → DONE`, which since Milestone 5 requires **both** Manager's macro validation **and** a passing `npm run hadp:check` (trigger T5b) — see `.agents/docs/framework/validation-rules.md` for exactly what that script checks. Since Milestone 7, `CODING → TESTING` (T4) is also a defined batch gate: it fires once per sprint, not per task — see the Full Lifecycle section below.
 
 Retries and escalation aren't unbounded: 3 failed Coder attempts or 2 failed Tester attempts force an escalation to the Manager, and Manager escalations go to the Decision Maker, whose ruling is final (`states.md` → Retry Policy).
 
@@ -80,19 +80,36 @@ The relationship: `validation-rules.md` automates the parts of `artifact-contrac
 ## Full Lifecycle
 
 ```
-Human → [Analyst, optional] → Decision Maker → Manager → Worker Coder → Worker Tester → Manager
-                                                                                            │
-                                                                        ┌───────────────────┤
-                                                                        ▼                    ▼
-                                                              Automated Compliance      Macro Validation
-                                                              Check (T5b, Sonnet)       (architecture fit,
-                                                                        │                scope, judgment)
-                                                                        └────────┬───────────┘
-                                                                                 ▼
-                                                                      PASS → Human (merge)
-                                                                      FAIL → Worker Coder (retry, max 3)
-                                                                      ESCALATE → Decision Maker
+Human → [Analyst, optional] → Decision Maker → Manager
+                                                   │
+                                                   ▼
+                                    Worker Coder (per task, repeats all sprint)
+                                        implement → build → hadp:check self-check
+                                                   │
+                                          (queues, does not block next task)
+                                                   │
+                              ─ ─ ─ ─ ─ sprint end declared (T4) ─ ─ ─ ─ ─
+                                                   │
+                                                   ▼
+                                    Worker Tester (once, batched — all queued tasks)
+                                                   │
+                                                   ▼
+                                                Manager
+                                                   │
+                                    ┌──────────────┤
+                                    ▼                    ▼
+                          Automated Compliance      Macro Validation
+                          Check (T5b, Sonnet,       (architecture fit,
+                          cumulative re-check)      scope, judgment)
+                                    │                    │
+                                    └────────┬───────────┘
+                                             ▼
+                                  PASS → Human (merge)
+                                  FAIL → Worker Coder (retry, max 3)
+                                  ESCALATE → Decision Maker
 ```
+
+Since Milestone 7, `hadp:check` runs twice: once per task (Worker Coder self-check, fast feedback during the sprint) and once cumulatively (Manager's T5b gate, the actual PASS blocker). Worker Tester runs once — at sprint end, as a batch — because it's the expensive, judgment-based step; `hadp:check` is cheap, so it doesn't share that cadence. See `.agents/docs/framework/validation-rules.md` → "Two Checkpoints."
 
 Full diagram: `.agents/docs/workflow/lifecycle.md`.
 

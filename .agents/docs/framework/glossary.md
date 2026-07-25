@@ -17,7 +17,10 @@ Log of significant events (decisions, state changes, escalations, failures, comp
 Tier 0b. Independent review authority with two distinct modes — see **Full Audit** and **Automated Compliance Check** below. `.agents/roles/auditor.md`.
 
 **Automated Compliance Check**
-The mandatory, Manager-triggered, Sonnet-tier subagent run of `npm run hadp:check` that gates every task's `IN_REVIEW → DONE` transition (trigger T5b). Blocking — distinct from the optional, advisory **Full Audit**. `.agents/docs/framework/validation-rules.md`.
+The mandatory run of `npm run hadp:check`. Runs at two checkpoints since Milestone 7: a per-task self-check by Worker Coder (fast feedback during the sprint) and the cumulative, Sonnet-tier-subagent-delegated final gate that blocks every task's `IN_REVIEW → DONE` transition (trigger T5b). Blocking — distinct from the optional, advisory **Full Audit**. `.agents/docs/framework/validation-rules.md`.
+
+**Batch (Sprint-End)**
+The cadence Worker Tester runs on since Milestone 7 — one session per sprint covering every task's completion packet accumulated since the last batch, rather than one session per task. Triggered by **Sprint End** (see below). `.agents/docs/workflow/triggers.md` → T4.
 
 **BLOCKER**
 Highest severity level — "cannot proceed." Fails `hadp:check` and blocks any handoff. `.agents/docs/framework/severity-system.md`.
@@ -94,6 +97,9 @@ A loop-back to the same tier to fix an issue, bounded by a max count (3 for Code
 **Severity Level**
 One of 🚫 BLOCKER / 🔴 HIGH / 🟡 MEDIUM / 🔵 LOW / ⚪ INFO — the single classification system used by every role for every finding. `.agents/docs/framework/severity-system.md`.
 
+**Sprint End**
+The Human/Manager-declared boundary that fires trigger T4 — Worker Tester's batch activation. Not automatic or time-boxed by default; Manager tracks which tasks are "CODING complete, awaiting sprint-end test" and declares the boundary on Human's behalf. `.agents/roles/manager.md`.
+
 **Task Index**
 Master registry of every task's status, owner, and linked artifacts across its full lifecycle. `.agents/docs/reports/task-index.md`.
 
@@ -110,10 +116,10 @@ A named, defined event (T0–T9, T5b) that causes a transition between tiers or 
 Per-role archive of completed reports (`.agents/docs/workbook/{role}/`), kept for audit history after a handoff packet's active cycle ends.
 
 **Worker Coder**
-Tier 3a. Implements code from a Manager handoff. Never tests its own work. `.agents/roles/worker-coder.md`.
+Tier 3a. Implements code from a Manager handoff, runs a per-task `hadp:check` self-check, and moves on to the next task without waiting for Tester. Never tests its own work beyond the build and compliance self-checks. `.agents/roles/worker-coder.md`.
 
 **Worker Tester**
-Tier 3b. Independently verifies Worker Coder's implementation — must be a separate session. `.agents/roles/worker-tester.md`.
+Tier 3b. Independently verifies Worker Coder's implementation — must be a separate session, and (since Milestone 7) activates once per **sprint** as a **batch** rather than per task. `.agents/roles/worker-tester.md`.
 
 ---
 

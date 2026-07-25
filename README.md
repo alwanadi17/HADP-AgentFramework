@@ -83,9 +83,9 @@ Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker T
 0b. **Auditor** (On-demand) — compliance audit, decision review → `workbook/auditor/`
 1. **Decision Maker** — reads briefs, produces governance docs, writes ADRs
 2. **Manager** — decomposes into tasks, creates handoff packets → `.agents/handoffs/`
-3. **Worker Coder** — implements code, runs build, submits completion packet
-4. **Worker Tester** — independently verifies, runs build, submits test report
-5. **Manager** — macro-validation, PASS / FAIL / ESCALATE
+3. **Worker Coder** — implements code, runs build + `hadp:check` self-check, submits completion packet, repeats per task without waiting on step 4
+4. **Worker Tester** — independently verifies, runs build, submits test report — once per **sprint**, batched, not per task (see `.agents/docs/workflow/triggers.md` T4)
+5. **Manager** — macro-validation (incl. final `hadp:check` gate), PASS / FAIL / ESCALATE
 6. **Human** — reviews, merges, triggers next cycle
 
 > Full protocol: `.agents/docs/handoff-protocol.md`
@@ -209,12 +209,27 @@ Planned milestones to evolve the HADP framework. Each milestone is a standalone 
 
 ---
 
+### Milestone 7: Cadence Rebalance — Frequent Compliance Checks, Batched Testing ✅
+**Goal**: Rebalance the two automated/semi-automated checkpoints so each runs at the cadence its cost actually justifies — cheap `hadp:check` more often, expensive Tester judgment less often.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Batch Worker Tester to sprint end instead of per-task (T4 redefined) | `triggers.md`, `states.md`, `worker-tester.md`, `call-tester.md` updates | ✅ |
+| Add per-task `hadp:check` self-check to Worker Coder's completion flow | `worker-coder.md`, `call-coder.md` updates | ✅ |
+| Document the two-checkpoint compliance model (per-task self-check + final cumulative gate) | `validation-rules.md` update | ✅ |
+| Clarify Manager's sprint-boundary and dependency-tracking responsibilities | `manager.md` update | ✅ |
+| Update flow diagram + sprint report template for the new cadence | `lifecycle.md`, `sprint-review.md` updates | ✅ |
+
+---
+
 ### Priority Order
 
 ```
 Milestone 1 (Rubric) → Milestone 2 (Contracts) → Milestone 3 (Registry)
        ↓
 Milestone 4 (Playbooks) → Milestone 5 (Tooling) → Milestone 6 (Docs)
+       ↓
+Milestone 7 (Cadence Rebalance)
 ```
 
-**All 6 milestones complete.** The v2.0 roadmap is done — Auditor has both a scoring rubric and blocking automated tooling, every artifact has a validation contract, tasks are traceable end-to-end, every role has an activation playbook, compliance is enforced automatically at the Manager's PASS gate, and the framework is documented top-to-bottom (`.agents/docs/framework/framework-overview.md` is the new entry point for architecture questions).
+**All 7 milestones complete.** The v2.0 roadmap is done — Auditor has both a scoring rubric and blocking automated tooling, every artifact has a validation contract, tasks are traceable end-to-end, every role has an activation playbook, compliance is enforced automatically at the Manager's PASS gate (and now also per-task by Coder), the framework is documented top-to-bottom (`.agents/docs/framework/framework-overview.md` is the entry point for architecture questions), and the two automated checkpoints (`hadp:check` vs. Worker Tester) are cadenced according to their actual cost — cheap and frequent vs. expensive and sprint-batched.

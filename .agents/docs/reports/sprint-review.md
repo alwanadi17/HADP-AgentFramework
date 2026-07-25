@@ -19,6 +19,7 @@
 | Task ID | Description | Status | Notes |
 |---|---|---|---|
 | TASK-004 | [Title] | CODING | Awaiting Coder completion |
+| TASK-005 | [Title] | CODING | Build + hadp:check self-check passed, queued for sprint-end test batch (see triggers.md T4) |
 
 ## Blockers
 - TASK-003 — blocked by [reason]

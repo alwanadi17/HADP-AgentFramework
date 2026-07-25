@@ -15,7 +15,7 @@ Every transition between roles is triggered by a specific event. This document d
 | T1 | Human | Decision Maker | Feature request / Escalation | Clear requirement or escalation packet | Chat message + handoff |
 | T2 | Decision Maker | Manager | Governance update / Task directive | ADR written or governance changed | `.agents/docs/decisions/ADR-XXX.md` |
 | T3 | Manager | Worker Coder | Task assignment | Task decomposed, criteria defined | `.agents/handoffs/mgr-to-coder_TASK-XXX_YYYYMMDD.md` |
-| T4 | Worker Coder | Worker Tester | Implementation complete | Build passes (✅) | `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md` |
+| T4 | Worker Coder | Worker Tester | **Sprint end** (batch, not per-task) | Build + `hadp:check` self-check pass per task, sprint declared complete | `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md` (one per task, accumulated) |
 | T5 | Worker Tester | Manager | Test report ready | Verdict: PASS / FAIL / CONCERNS | `.agents/handoffs/tester-to-mgr_TASK-XXX_YYYYMMDD.md` |
 | T5b | Manager | Auditor (subagent) → Manager | Automated Compliance Check | **Mandatory**, every task, before PASS verdict | `npm run hadp:check` exit code + findings |
 | T6 | Manager | Human | Final validation | Verdict: PASS (requires T5b passed) | Chat message + summary |
@@ -65,13 +65,15 @@ Every transition between roles is triggered by a specific event. This document d
 - RED_LINES reference
 
 ### T4: Worker Coder → Worker Tester
-**When**: Code implementation is complete
-**Condition**: Build must pass (✅) before handoff
-**Output**: Completion packet with:
+**When**: **Sprint end** — Human/Manager declares the sprint complete. This is a **batch** trigger, not per-task: Worker Coder keeps implementing task after task through the sprint without waiting on Tester for each one, and Worker Tester processes the whole accumulated batch in a single session at the end.
+**Condition (per task, before it joins the batch)**: Build must pass (✅) AND `npm run hadp:check` must pass (no 🚫 BLOCKER/🔴 HIGH findings) as a Coder self-check — see `.agents/roles/worker-coder.md`. Treat a failing self-check the same as a failing build: fix before moving on, don't queue a non-compliant packet.
+**Output**: One completion packet per task, accumulated across the sprint:
 - Changes made (file paths + line numbers)
 - Build result
+- `hadp:check` self-check result
 - Implementation notes
 - RED_LINE self-check
+**Note**: Worker Tester still MUST be a separate session from Worker Coder (unchanged rule) — only the cadence changed, not the cross-validation requirement. This mirrors the `hadp:check` single-gate pattern (Milestone 5) for the *expensive* judgment-based verification step, while the *cheap* compliance check (the self-check above) runs per-task precisely because testing no longer does — see `.agents/docs/framework/validation-rules.md`.
 
 ### T5: Worker Tester → Manager
 **When**: Testing is complete
@@ -123,10 +125,12 @@ Every transition between roles is triggered by a specific event. This document d
 
 1. **No skipping tiers**: Every transition must go through the proper chain
 2. **Artifact required**: No transition without the corresponding handoff packet
-3. **Build gate**: Coder → Tester requires build pass
-4. **Compliance gate**: Manager → Human (T6/PASS) requires `npm run hadp:check` to pass (T5b) — no BLOCKER/HIGH findings
-5. **Retry limit**: Max 3 retries per Coder per task
-6. **Escalation final**: Once escalated, Decision Maker's decision is binding
+3. **Build gate**: Coder → Tester requires build pass (per task, immediate — unaffected by batching)
+4. **Per-task compliance gate**: Every Coder completion packet requires its own passing `npm run hadp:check` self-check before it joins the sprint's T4 batch queue
+5. **Batch testing gate**: T4 fires once per sprint (Human/Manager-declared), not per task — Worker Tester still MUST run in a separate session from Worker Coder
+6. **Final compliance gate**: Manager → Human (T6/PASS) requires `npm run hadp:check` to pass again (T5b) — this is a cumulative re-check (catches cross-task issues like task-index consistency), not a duplicate of the per-task self-check
+7. **Retry limit**: Max 3 retries per Coder per task
+8. **Escalation final**: Once escalated, Decision Maker's decision is binding
 
 ## Reference
 - `.agents/docs/workflow/lifecycle.md` — high-level flow

@@ -70,6 +70,8 @@
 | **Escalation Path** | Coder (3x fail) → Manager → Decision Maker. No dead ends. |
 | **Token Efficiency** | Analyst reads once so Decision Maker doesn't have to. |
 
+> **Cadence note (since Milestone 7)**: the `[3a] WORKER CODER → [3b] WORKER TESTER` arrow above is a sprint-batch trigger, not per-task — Coder implements continuously through the sprint, and Tester runs once at sprint end across everything accumulated. The cheap, deterministic `hadp:check` compliance script runs per-task instead (as a Coder self-check) precisely because Tester no longer does. See `.agents/docs/workflow/triggers.md` → T4 and `.agents/docs/framework/validation-rules.md`.
+
 ## Role Boundaries
 
 | Tier | Role | Does | Does NOT |

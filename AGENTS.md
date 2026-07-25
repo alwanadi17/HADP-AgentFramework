@@ -89,9 +89,9 @@ Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker T
 2. **Analyst** (optional) → research, codebase mapping, output to `workbook/analyst/`
 3. **Decision Maker** → read brief, make decisions, update governance, write ADR
 4. **Manager** → decompose tasks, create handoff packet → `handoffs/mgr-to-coder_*.md`
-5. **Worker Coder** → implement, build check, create completion packet
-6. **Worker Tester** → verify, test, create test report
-7. **Manager** → macro validation, PASS / FAIL / ESCALATE
+5. **Worker Coder** → implement, build check, `hadp:check` self-check, create completion packet — repeats per task, continuously, without waiting on step 6
+6. **Worker Tester** → verify, test, create test report — runs once per **sprint** as a batch, not per task (see `.agents/docs/workflow/triggers.md` T4)
+7. **Manager** → macro validation (incl. final `hadp:check` gate), PASS / FAIL / ESCALATE
 8. **Human** → final review, merge
 
 > Full details: `.agents/docs/workflow/lifecycle.md`

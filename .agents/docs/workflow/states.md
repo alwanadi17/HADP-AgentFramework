@@ -15,8 +15,8 @@ TODO ──→ CODING ──→ TESTING ──→ IN_REVIEW ──→ DONE
 | State | Description | Owner | Next States |
 |---|---|---|---|
 | **TODO** | Task created, not yet started | Manager | CODING, BLOCKED |
-| **CODING** | Worker Coder is implementing | Worker Coder | TESTING, FAIL (build fail) |
-| **TESTING** | Worker Tester is verifying | Worker Tester | IN_REVIEW, FAIL, CONCERNS |
+| **CODING** | Worker Coder is implementing — a task can sit here (build + `hadp:check` self-check passed) awaiting the sprint-end test batch while Coder moves on to the next task | Worker Coder | TESTING, FAIL (build or self-check fail) |
+| **TESTING** | Worker Tester is verifying — runs once per sprint as a batch, not per task | Worker Tester | IN_REVIEW, FAIL, CONCERNS |
 | **IN_REVIEW** | Manager is doing macro validation | Manager | DONE, FAIL, ESCALATED |
 | **DONE** | Task completed, awaiting human merge | Human | — (terminal) |
 | **FAIL** | Task failed at some gate | Manager | CODING (retry), BLOCKED (max retries) |
@@ -32,13 +32,14 @@ TODO ──→ CODING ──→ TESTING ──→ IN_REVIEW ──→ DONE
 - Artifact: `.agents/handoffs/mgr-to-coder_TASK-XXX_YYYYMMDD.md`
 
 ### CODING → TESTING
-- Trigger: Coder completes implementation
-- Condition: Build passes (✅)
-- Artifact: `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md`
+- Trigger: **Sprint end declared** (Human/Manager) — batch, not per-task. Multiple tasks may sit in CODING (build passed, `hadp:check` self-check passed) simultaneously, all awaiting the same batch.
+- Condition: Build passes (✅) AND `npm run hadp:check` self-check passes (✅) per task, sprint declared complete
+- Artifact: `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md` (one per task in the batch)
+- **Exception**: if a downstream task genuinely depends on an upstream task being *tested and passing* (not just implemented), Manager must flag this explicitly in the handoff — that dependency isn't satisfied until the upstream task clears TESTING.
 
 ### CODING → FAIL
-- Trigger: Build fails (❌)
-- Condition: Coder reports build failure
+- Trigger: Build fails (❌) OR `hadp:check` self-check fails (🚫 BLOCKER/🔴 HIGH)
+- Condition: Coder reports build failure or non-compliant completion packet
 - Max retries: 3
 
 ### TESTING → IN_REVIEW

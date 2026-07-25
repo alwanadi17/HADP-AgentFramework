@@ -1,6 +1,6 @@
 # Validation Rules — `hadp:check`
 
-> Spec for `scripts/hadp-check.js`, the automated compliance check that gates the Manager's PASS verdict at `IN_REVIEW → DONE` (see `.agents/docs/workflow/states.md`). Every rule below maps to an existing manual checklist item — this script doesn't add new requirements, it enforces ones that already existed in `manager.md` and `auditor.md` but were previously self-reported.
+> Spec for `scripts/hadp-check.js`. Since Milestone 7, this runs at **two** checkpoints — a per-task Coder self-check (T4, fast feedback) and the cumulative Manager/Auditor-subagent gate at `IN_REVIEW → DONE` (T5b, the actual PASS blocker). See "Two Checkpoints" below. Every rule maps to an existing manual checklist item — this script doesn't add new requirements, it enforces ones that already existed in `manager.md` and `auditor.md` but were previously self-reported.
 
 ## Why This Exists
 
@@ -51,10 +51,20 @@ Per `.agents/docs/framework/severity-system.md`:
 | 🔵 LOW | No (warn only) | "Can defer to next sprint" |
 | ⚪ INFO | No | Observation only |
 
-## Not Covered (Out of Scope for v1)
+## Two Checkpoints (Since Milestone 7)
+
+Why two, and why this split: Worker Tester's judgment-based verification is now sprint-batched (see `.agents/docs/workflow/triggers.md` → T4) — Coder implements continuously through the sprint without a human/LLM tester checking each task. `hadp:check` is cheap and deterministic, so it doesn't need to wait for that same cadence; it fills the gap during the sprint.
+
+| Checkpoint | Trigger | Who runs it | Model | Catches |
+|---|---|---|---|---|
+| Per-task self-check | Every Coder completion packet (T4 condition) | Worker Coder, on its own output | Whatever model Coder is running | Structural drift on that one task — bad naming, missing fields, unchecked RED_LINE boxes, leftover placeholders |
+| Final cumulative gate | Before Manager's PASS verdict (T5b) | Auditor subagent, delegated by Manager | Sonnet-tier is sufficient | Everything the per-task check catches, re-confirmed, PLUS cross-task issues a single task can't see (e.g. `PLAN.md`/task-index consistency across the whole sprint) |
+
+Both checkpoints run the exact same script — same rules, same severity thresholds. Nothing in `scripts/hadp-check.js` itself changed; only *when* and *by whom* it's invoked.
+
+## Not Covered (Out of Scope)
 
 - Judgment-based review (does the ADR's rationale actually make sense, does the code match the acceptance criteria) — stays with the Auditor's full on-demand review (`.agents/roles/auditor.md`), not automatable.
-- Only runs as a single gate at `IN_REVIEW → DONE` (see `.agents/docs/workflow/states.md`). Earlier fail-fast gates (after Coder, after Tester) are a possible future extension, deliberately deferred per CONSTITUTION.md's "no premature optimization."
 
 ## References
 

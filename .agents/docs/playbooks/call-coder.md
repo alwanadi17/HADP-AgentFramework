@@ -64,8 +64,11 @@ Call the Worker Coder when a **task is decomposed and ready for implementation**
 ### Expected Output
 1. Code changes in specified files
 2. Build verification result (PASS / FAIL)
-3. Completion handoff packet → `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md`
-4. Completion archive → `.agents/docs/workbook/coder/YYYYMMDD_TASK-XXX_completion.md`
+3. `npm run hadp:check` self-check result (PASS / FAIL) — required before the task is considered ready to queue; see `.agents/roles/worker-coder.md` → Cadence Note
+4. Completion handoff packet → `.agents/handoffs/coder-to-tester_TASK-XXX_YYYYMMDD.md`
+5. Completion archive → `.agents/docs/workbook/coder/YYYYMMDD_TASK-XXX_completion.md`
+
+Note: Worker Tester is not called per task anymore — completion packets accumulate in `.agents/handoffs/` and are picked up together at sprint end (see `.agents/docs/playbooks/call-tester.md`). Coder should proceed straight to the next task rather than waiting.
 
 ### Handoff Target
 → **Worker Tester** (Tier 3b)
@@ -92,7 +95,8 @@ Call the Worker Coder when a **task is decomposed and ready for implementation**
 5. Implement changes
 6. Run build
 7. Create completion handoff packet
-8. Submit → Worker Tester
+8. Run npm run hadp:check (self-check)
+9. Queue for sprint-end batch → move on to the next task (don't wait for Tester)
 ```
 
 ---

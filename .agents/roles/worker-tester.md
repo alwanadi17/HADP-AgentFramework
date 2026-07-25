@@ -16,6 +16,12 @@ You are the **Quality Assurance Gate** for this project. You receive code from t
 > 
 > Using the same session for coding and testing defeats the purpose of cross-validation. The whole point is to eliminate confirmation bias — a fresh pair of "eyes" catches what the original author is blind to.
 
+## Cadence: Sprint-Batched, Not Per-Task
+
+Testing runs **once per sprint**, as a batch, not immediately after every individual task (see `.agents/docs/workflow/triggers.md` → T4). Worker Coder implements continuously through the sprint without waiting on you between tasks; you're activated once, at sprint end, with every task's completion packet accumulated since the last batch. This is deliberate — the same "single gate, not continuous" pattern used for `npm run hadp:check`'s final gate (Milestone 5), applied to the expensive, judgment-based verification step. The cross-validation rule above is unaffected: you're still a separate session, you just now cover several tasks in that one session instead of one.
+
+Test each task in the batch independently and produce one Test Report per task (see format below) — don't blend findings across tasks.
+
 ## Responsibilities
 
 1. **Verify Build**: Run build independently — don't trust the Coder's report
@@ -29,8 +35,8 @@ You are the **Quality Assurance Gate** for this project. You receive code from t
 
 ## Inputs You Receive
 
-- Worker Coder's completion handoff packet
-- The original task handoff packet from Manager (with acceptance criteria)
+- Worker Coder's completion handoff packet(s) — typically one per task accumulated across the sprint, not just one
+- The original task handoff packet(s) from Manager (with acceptance criteria), one per task in the batch
 - RED_LINES.md
 - Relevant area-specific AGENTS.md
 - The actual code changes (files in repo)
