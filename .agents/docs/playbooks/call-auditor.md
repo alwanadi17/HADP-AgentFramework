@@ -1,5 +1,7 @@
 # 🔍 Playbook: Calling the Auditor (Tier 0b)
 
+> **Claude Code**: also available as two skills — `/hadp-auditor` (`.claude/skills/hadp-auditor/SKILL.md`) for Full Audit, and `/hadp-compliance` (`.claude/skills/hadp-compliance/SKILL.md`) for the Automated Compliance Check. Both auto-load this playbook, the role definition, and live repo context. This document remains canonical; the skills just wrap it.
+
 ## When to Call
 
 Call the Auditor when you need **independent compliance checks, decision reviews, or process assurance**. The Auditor is on-demand — only call when specific review is needed.

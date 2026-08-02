@@ -1,5 +1,7 @@
 # 🔍 Playbook: Calling the Analyst (Tier 0)
 
+> **Claude Code**: also available as `/hadp-analyst` (`.claude/skills/hadp-analyst/SKILL.md`) — auto-loads this playbook, the role definition, and live repo context. This document remains canonical; the skill just wraps it.
+
 ## When to Call
 
 Call the Analyst when you need **deep research, codebase mapping, or structured summaries** before making decisions. The Analyst is optional — skip if the task is well-understood.

@@ -1,5 +1,7 @@
 # ⚡ Playbook: Calling the Worker Coder (Tier 3a)
 
+> **Claude Code**: also available as `/hadp-coder` (`.claude/skills/hadp-coder/SKILL.md`) — auto-loads this playbook, the role definition, and live repo context. This document remains canonical; the skill just wraps it.
+
 ## When to Call
 
 Call the Worker Coder when a **task is decomposed and ready for implementation**. The Worker Coder is a "doing" role — pure implementation with no decision-making.

@@ -98,6 +98,25 @@ Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker T
 
 ---
 
+## 🧩 Claude Code Skills
+
+Every role above is also available as a project-local Skill under `.claude/skills/` — run `/hadp-init` first in a freshly copied project, then activate roles by slash command instead of manually copying playbook templates. Skills live-inject the canonical role/playbook docs, so they stay in sync automatically.
+
+| Role | Slash Command | Path |
+|---|---|---|
+| Project Bootstrap | `/hadp-init` | `.claude/skills/hadp-init/` |
+| Analyst | `/hadp-analyst` | `.claude/skills/hadp-analyst/` |
+| Decision Maker | `/hadp-decision-maker` | `.claude/skills/hadp-decision-maker/` |
+| Manager | `/hadp-manager` | `.claude/skills/hadp-manager/` |
+| Worker Coder | `/hadp-coder` | `.claude/skills/hadp-coder/` |
+| Worker Tester | `/hadp-tester` | `.claude/skills/hadp-tester/` |
+| Auditor (Full Audit) | `/hadp-auditor` | `.claude/skills/hadp-auditor/` |
+| Auditor (Compliance Check) | `/hadp-compliance` | `.claude/skills/hadp-compliance/` |
+
+Other agents (Gemini, GPT, GLM, etc.) follow the manual `call-*.md` playbooks instead — Claude Code Skills are Claude-Code-specific.
+
+---
+
 ## 📋 Quick Reference
 
 ### Commands

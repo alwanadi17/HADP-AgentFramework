@@ -1,5 +1,7 @@
 # 📋 Playbook: Calling the Manager (Tier 2)
 
+> **Claude Code**: also available as `/hadp-manager` (`.claude/skills/hadp-manager/SKILL.md`) — auto-loads this playbook, the role definition, and live repo context. This document remains canonical; the skill just wraps it.
+
 ## When to Call
 
 Call the Manager when you need **task decomposition, delegation, validation, and quality control**. The Manager is the bridge between strategy (Decision Maker) and execution (Workers). This is the most frequently activated role.

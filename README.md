@@ -11,6 +11,8 @@ A reusable template for **multi-tier AI-assisted project development** using the
 5. Update `AGENTS.md` with your project-specific quick reference
 6. Add `.agents/` to your `.gitignore`
 
+> **Claude Code**: steps 2–6 can be done interactively via `/hadp-init` (`.claude/skills/hadp-init/SKILL.md`) instead of by hand. Other agents follow the manual steps above.
+
 ## What's Included
 
 ```
@@ -222,6 +224,19 @@ Planned milestones to evolve the HADP framework. Each milestone is a standalone 
 
 ---
 
+### Milestone 8: Claude Code Skills for Role Activation ✅
+**Goal**: Turn every role's invocation playbook into an actual Claude Code Skill, so activating a role is one slash command instead of a manual copy-paste.
+
+| Task | Deliverable | Status |
+|---|---|---|
+| Create `.claude/skills/hadp-init/` | One-time project bootstrap wizard, wraps README Quick Start | ✅ |
+| Create one skill per role (`hadp-analyst`, `hadp-decision-maker`, `hadp-manager`, `hadp-coder`) | Live-injects the role definition + playbook, no content duplication | ✅ |
+| Split Auditor into `hadp-auditor` (Full Audit, advisory) and `hadp-compliance` (mandatory gate, forked) | Two skills, matching the role's two distinct modes | ✅ |
+| Create `hadp-tester` with `context: fork` | Technical enforcement of the "separate session from Coder" rule | ✅ |
+| Doc-sync: point every `call-*.md` playbook and `AGENTS.md` at the new skills | `call-*.md`, `AGENTS.md`, `README.md` updates | ✅ |
+
+---
+
 ### Priority Order
 
 ```
@@ -229,7 +244,7 @@ Milestone 1 (Rubric) → Milestone 2 (Contracts) → Milestone 3 (Registry)
        ↓
 Milestone 4 (Playbooks) → Milestone 5 (Tooling) → Milestone 6 (Docs)
        ↓
-Milestone 7 (Cadence Rebalance)
+Milestone 7 (Cadence Rebalance) → Milestone 8 (Claude Code Skills)
 ```
 
-**All 7 milestones complete.** The v2.0 roadmap is done — Auditor has both a scoring rubric and blocking automated tooling, every artifact has a validation contract, tasks are traceable end-to-end, every role has an activation playbook, compliance is enforced automatically at the Manager's PASS gate (and now also per-task by Coder), the framework is documented top-to-bottom (`.agents/docs/framework/framework-overview.md` is the entry point for architecture questions), and the two automated checkpoints (`hadp:check` vs. Worker Tester) are cadenced according to their actual cost — cheap and frequent vs. expensive and sprint-batched.
+**All 8 milestones complete.** The v2.0 roadmap is done — Auditor has both a scoring rubric and blocking automated tooling, every artifact has a validation contract, tasks are traceable end-to-end, every role has an activation playbook, compliance is enforced automatically at the Manager's PASS gate (and now also per-task by Coder), the framework is documented top-to-bottom (`.agents/docs/framework/framework-overview.md` is the entry point for architecture questions), the two automated checkpoints (`hadp:check` vs. Worker Tester) are cadenced according to their actual cost — cheap and frequent vs. expensive and sprint-batched — and every role plus the initial project bootstrap is one slash command away in Claude Code (`.claude/skills/`).

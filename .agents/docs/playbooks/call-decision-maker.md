@@ -1,5 +1,7 @@
 # 🧠 Playbook: Calling the Decision Maker (Tier 1)
 
+> **Claude Code**: also available as `/hadp-decision-maker` (`.claude/skills/hadp-decision-maker/SKILL.md`) — auto-loads this playbook, the role definition, and live repo context. This document remains canonical; the skill just wraps it.
+
 ## When to Call
 
 Call the Decision Maker when you need **architectural decisions, governance updates, or escalation resolution**. The Decision Maker is the highest authority — use sparingly for high-stakes decisions only.

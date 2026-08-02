@@ -1,5 +1,7 @@
 # 🧪 Playbook: Calling the Worker Tester (Tier 3b)
 
+> **Claude Code**: also available as `/hadp-tester` (`.claude/skills/hadp-tester/SKILL.md`) — auto-loads this playbook, the role definition, and live repo context, and runs isolated (`context: fork`) to enforce the separate-session rule below. This document remains canonical; the skill just wraps it.
+
 ## When to Call
 
 Call the Worker Tester at **sprint end**, once, as a batch — not after each individual task. The Worker Tester must be a **separate session/conversation** from the Worker Coder to eliminate confirmation bias. See `.agents/docs/workflow/triggers.md` → T4.
