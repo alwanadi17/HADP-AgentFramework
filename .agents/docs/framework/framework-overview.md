@@ -6,7 +6,7 @@
 
 HADP (Hierarchical Agentic Development Pipeline) is a multi-agent development model built around one idea: **separate thinking from doing, and never let a role grade its own work.** Instead of one AI agent doing research, deciding architecture, writing code, and testing it in a single session, HADP splits those responsibilities across distinct tiers, each with a narrow mandate, that hand off work to each other through structured, auditable artifacts.
 
-It's agent-model-agnostic — any tier can run on any LLM (Claude, Gemini, GPT, GLM, etc.). `RTK.md` and this framework's rules apply regardless of which model is behind a given role.
+It's agent-model-agnostic — any tier can run on any LLM (Claude, Gemini, GPT, GLM, etc.). This framework's rules apply regardless of which model is behind a given role.
 
 ## Core Philosophy
 
@@ -118,7 +118,6 @@ Full diagram: `.agents/docs/workflow/lifecycle.md`.
 | Doc | Purpose |
 |---|---|
 | `AGENTS.md` | Quick-reference entry point |
-| `RTK.md` | Token-optimized CLI commands (all roles, all models) |
 | `.agents/CONSTITUTION.md` | Project identity, philosophy |
 | `.agents/RED_LINES.md` | Hard constraints |
 | `.agents/ARCHITECTURE.md` | Tech stack, data flow |

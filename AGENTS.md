@@ -132,7 +132,6 @@ npm run hadp:check # Framework compliance check — mandatory before Manager's P
 | File | Path | When to Read |
 |---|---|---|
 | Manual Book | `AGENTS.md` | Every chat start |
-| RTK Command Guide | `RTK.md` | Every chat start |
 | Hard Constraints | `.agents/RED_LINES.md` | Before every task |
 | Project Identity | `.agents/CONSTITUTION.md` | Before first task |
 | Tech Stack | `.agents/ARCHITECTURE.md` | Before first task |
@@ -177,7 +176,6 @@ Example: `docs/workbook/coder/20260630_TASK-001_completion.md`
 ## ⚙️ Rules for All Agents
 
 ### DO
-- Prefix shell/CLI commands with `rtk` per `RTK.md` — applies to every role/model, not just Claude Code
 - Read `RED_LINES.md` before starting any task
 - Read area-specific `AGENTS.md` before touching files in that area
 - Follow acceptance criteria from Manager
