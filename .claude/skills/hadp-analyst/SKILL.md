@@ -1,5 +1,5 @@
 ---
-name: HADP Analyst
+name: hadp-analyst
 description: Activate the HADP Analyst (Tier 0) for deep research, codebase mapping, or a structured brief before a decision or plan gets made. Optional — skip if the area is already well understood or a recent brief covers it.
 argument-hint: [research directive]
 disable-model-invocation: true

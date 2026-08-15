@@ -1,5 +1,5 @@
 ---
-name: HADP Worker Coder
+name: hadp-coder
 description: Activate the HADP Worker Coder (Tier 3a) to implement one specific task from an existing Manager handoff packet. Requires a mgr-to-coder handoff to already exist — not for research, decisions, or testing.
 argument-hint: [TASK-ID]
 disable-model-invocation: true

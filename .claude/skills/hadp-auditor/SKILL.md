@@ -1,5 +1,5 @@
 ---
-name: HADP Auditor — Full Audit
+name: hadp-auditor
 description: On-demand independent review of an ADR, handoff packet, or process compliance. Advisory only — never approves/rejects/fixes. Not for the routine hadp:check gate — use /hadp-compliance for that.
 argument-hint: [artifact path or what to review]
 disable-model-invocation: true

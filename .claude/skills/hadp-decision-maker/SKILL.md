@@ -1,5 +1,5 @@
 ---
-name: HADP Decision Maker
+name: hadp-decision-maker
 description: Activate the HADP Decision Maker (Tier 1) for architectural decisions, governance updates, ADRs, or resolving a Manager escalation. Highest authority — use sparingly, for high-stakes decisions only.
 argument-hint: [decision or escalation summary]
 disable-model-invocation: true

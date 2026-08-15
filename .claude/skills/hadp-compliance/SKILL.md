@@ -1,5 +1,5 @@
 ---
-name: HADP Auditor — Compliance Check
+name: hadp-compliance
 description: Run the mandatory automated hadp:check compliance script and report results verbatim. Deterministic — no judgment call. Invoked by the Manager before every PASS verdict, or on demand.
 context: fork
 background: false

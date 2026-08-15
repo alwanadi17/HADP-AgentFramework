@@ -1,5 +1,5 @@
 ---
-name: HADP Manager
+name: hadp-manager
 description: Activate the HADP Manager (Tier 2) — the most frequently used role — for task decomposition, delegating to Worker Coder, macro-validating a Worker Tester report, or escalating to Decision Maker.
 argument-hint: [directive / TASK-ID / validate]
 disable-model-invocation: true

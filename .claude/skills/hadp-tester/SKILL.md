@@ -1,5 +1,5 @@
 ---
-name: HADP Worker Tester
+name: hadp-tester
 description: Activate the HADP Worker Tester (Tier 3b) for the sprint-end batch verification of every accumulated Coder completion packet. Runs isolated from the current conversation to eliminate confirmation bias — this is not a per-task call.
 argument-hint: [TASK-IDs or all pending]
 disable-model-invocation: true

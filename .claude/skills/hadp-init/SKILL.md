@@ -1,5 +1,5 @@
 ---
-name: HADP Init
+name: hadp-init
 description: One-time setup wizard for a freshly copied HADP template — customizes CONSTITUTION.md, RED_LINES.md, ARCHITECTURE.md, AGENTS.md, and .gitignore for the new project. Run this first, before any other hadp-* skill.
 disable-model-invocation: true
 ---
