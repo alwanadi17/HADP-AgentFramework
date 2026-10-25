@@ -1,32 +1,26 @@
-# Project Plan — [PROJECT NAME]
+# Plan — [PROJECT NAME]
 
-> Managed by the multi-agent system. See `.agents/docs/handoff-protocol.md` for workflow.
-> All tasks must be registered in the Task Index: `.agents/docs/reports/task-index.md`
+> The only handoff channel between roles. Planner writes tasks, Coder fills *Coder notes*, Tester fills *Verdict*.
+> Statuses: `TODO` | `DOING` | `REVIEW` | `DONE` | `BLOCKED`
 
----
+## Context
 
-## Current Sprint
+_Planner: a few lines on the current goal and anything the Coder/Tester should know about the codebase._
 
-_No active tasks. Ready for first feature assignment._
+## Tasks
 
-### Task Format (Manager produces these)
+_No tasks yet. Run the Planner to add the first one._
 
-```markdown
-### TASK-XXX: [Title]
+<!--
+Task format (copy for each new task):
 
-**Assigned to**: Worker Coder → Worker Tester
-**Status**: TODO | CODING | TESTING | IN_REVIEW | DONE | BLOCKED
-**Dependencies**: TASK-YYY (if any)
-**Max LOC**: ~XX lines
-
-**Description**: What needs to happen and why.
-
-**Acceptance Criteria**:
-- [ ] Criterion 1 (specific, testable)
-- [ ] Criterion 2
-- [ ] Build passes
-- [ ] No RED_LINE violations
-
-**Files to modify**:
-- `path/to/file` — what changes
-```
+### TASK-001: Short title
+Status: TODO
+Spec: What to build and why, in 1–3 sentences.
+Acceptance:
+- [ ] Specific, testable criterion
+- [ ] Build, tests and lint pass
+Files: path/to/file — what changes
+Coder notes: _(Coder: what changed, build/test/lint results)_
+Verdict: _(Tester: PASS or FAIL #n, then findings marked "blocking" or "note")_
+-->

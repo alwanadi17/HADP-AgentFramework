@@ -1,195 +1,59 @@
-# 📘 HADP Manual Book — Hierarchical Agentic Development Pipeline
+# HADP — Agent Manual
 
-> **Office (`.agents/`) vs Factory (root project)**
-> All governance, workflow, and reports go in `.agents/`. Production source code lives in the root project.
->
-> **New to HADP?** This doc is the quick-reference. For the full architecture explainer — why each tier exists, how the gate system works, how the quality framework fits together — read `.agents/docs/framework/framework-overview.md` first. Unfamiliar term? Check `.agents/docs/framework/glossary.md`.
+> Read this at the start of every session. It's the whole framework.
 
----
+HADP splits work across three roles so an expensive model does the thinking and cheaper models do the doing. Roles never share a chat — they hand off through **`PLAN.md`**.
 
-## 🏛️ Model: Hierarchical Agentic Development Pipeline (HADP)
-
-HADP is an AI agent-based software development model with **5 hierarchical tiers** that separates **thinking** from **doing**:
-
-| Tier | Role | Model | Function |
+| Role | Model profile | Does | Never |
 |---|---|---|---|
-| 0 | **Analyst** (on-demand) | Long-context, high-volume | Research, codebase mapping, structured briefs |
-| 0b | **Auditor** (on-demand) | High-reasoning | Compliance audit, decision review, process assurance |
-| 1 | **Decision Maker** | High-reasoning | Governance, architecture, decisions |
-| 2 | **Manager** | Balanced intelligence | Task decomposition, delegation, validation |
-| 3a | **Worker Coder** | Coding-focused | Code implementation |
-| 3b | **Worker Tester** | Token-efficient | Testing & verification |
+| **Planner** | High-reasoning (expensive) | Researches, decides, writes tasks into `PLAN.md`, writes ADRs for big decisions | Writes production code |
+| **Coder** | Coding-focused | Implements one task, makes build/test/lint pass, fills in *Coder notes* | Changes scope, edits `.agents/`, tests its own work as the final word |
+| **Tester** | Cheap, token-efficient | Independently verifies tasks in `REVIEW`, fills in *Verdict* | Writes or fixes code |
 
-### Key Principles
-- **Separation of Concerns** — Each tier does ONE thing. No overlap.
-- **Gate System** — Every transition requires a handoff packet. No skipping.
-- **Token Efficiency** — Analyst reads once, Decision Maker doesn't need to read source code.
-- **Fail Fast** — Coder build fails → report immediately. Tester finds issue → loop back.
+Role details: `.agents/roles/{planner,coder,tester}.md`
 
----
+## Files
 
-## 🏢 Office Structure (`.agents/`)
+| File | What it is |
+|---|---|
+| `AGENTS.md` | This manual |
+| `PLAN.md` | Task list **and** the only handoff channel between roles |
+| `.agents/PROJECT.md` | Project identity, tech stack, commands, red lines — read before every task |
+| `.agents/roles/*.md` | One file per role, including a copy-paste prompt for non-Claude models |
+| `.agents/decisions/` | ADRs — optional, only for decisions that are hard to reverse |
 
-```
-.agents/                           ← OFFICE — all agent affairs
-├── CONSTITUTION.md                ← Project identity & philosophy
-├── RED_LINES.md                   ← Hard constraints (read BEFORE every task)
-├── ARCHITECTURE.md                ← Tech stack & data flow
-├── roles/                         ← Role definitions for each agent
-│   ├── analyst.md
-│   ├── auditor.md
-│   ├── decision-maker.md
-│   ├── manager.md
-│   ├── worker-coder.md
-│   └── worker-tester.md
-├── handoffs/                      ← Handoff packets between agents (active)
-│   └── README.md
-├── docs/                          ← Workflow documentation & reports
-│   ├── handoff-protocol.md        ← Communication protocol between agents
-│   ├── workflow/
-│   │   ├── lifecycle.md           ← High-level flow diagram
-│   │   ├── states.md              ← Task lifecycle states
-│   │   └── triggers.md            ← Triggers for each transition
-│   ├── workbook/                  ← REPORTS per role (archive)
-│   │   ├── analyst/
-│   │   ├── auditor/
-│   │   ├── decision-maker/
-│   │   ├── manager/
-│   │   ├── coder/
-│   │   └── tester/
-│   ├── reports/                   ← Aggregate reports
-│   │   ├── sprint-review.md
-│   │   └── audit-trail.md
-│   └── decisions/                 ← Architecture Decision Records (ADR)
-│       └── _template.md
-
-[ROOT PROJECT]                     ← FACTORY — production source code
-├── AGENTS.md                      ← Manual Book (entry point — YOU ARE HERE)
-├── PLAN.md                        ← Task checklist
-├── README.md
-└── src/                           ← Production code
-```
-
----
-
-## 🔄 Quick Workflow
+## The loop
 
 ```
-                    ┌─── [Auditor] (on-demand) ───┐
-                    │         ↑    ↑       ↑       │
-                    │         │    │       │       │
-                    ▼         │    │       │       │
-Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker Tester → Manager → Human
-         (optional)                                    ↓              ↓
-                                                  build pass    test report
+Human ──► Planner ──► PLAN.md (TODO)
+                         │
+                      Coder: implement, build + test + lint pass ──► REVIEW
+                         │
+                      Tester (separate session): verify
+                         ├─ PASS ──► DONE ──► Human reviews & merges
+                         ├─ FAIL ──► TODO (with reasons) ──► Coder again
+                         └─ 3rd FAIL ──► BLOCKED ──► Planner rethinks the task
 ```
 
-### Step by Step:
-1. **Human** → submits feature request / task
-2. **Analyst** (optional) → research, codebase mapping, output to `workbook/analyst/`
-3. **Decision Maker** → read brief, make decisions, update governance, write ADR
-4. **Manager** → decompose tasks, create handoff packet → `handoffs/mgr-to-coder_*.md`
-5. **Worker Coder** → implement, build check, `hadp:check` self-check, create completion packet — repeats per task, continuously, without waiting on step 6
-6. **Worker Tester** → verify, test, create test report — runs once per **sprint** as a batch, not per task (see `.agents/docs/workflow/triggers.md` T4)
-7. **Manager** → macro validation (incl. final `hadp:check` gate), PASS / FAIL / ESCALATE
-8. **Human** → final review, merge
+**Statuses:** `TODO` → `DOING` → `REVIEW` → `DONE`, or `BLOCKED`.
 
-> Full details: `.agents/docs/workflow/lifecycle.md`
+Tester runs whenever you call it and checks every task in `REVIEW` — one at a time or a whole batch, your choice.
 
----
+## Rules for every role
 
-## 🧩 Claude Code Skills
+- Read `.agents/PROJECT.md` (especially **Red Lines**) before touching anything.
+- Only edit your own fields in `PLAN.md` (see the task format there).
+- Coder and Tester must run in **separate sessions** — the Tester never sees the Coder's chat.
+- If something is unclear or out of scope, set the task to `BLOCKED` with a one-line reason instead of guessing.
+- Report honestly. A failed build or test is written down, not hidden.
 
-Every role above is also available as a project-local Skill under `.claude/skills/` — run `/hadp-init` first in a freshly copied project, then activate roles by slash command instead of manually copying playbook templates. Skills live-inject the canonical role/playbook docs, so they stay in sync automatically.
+## Claude Code
 
-| Role | Slash Command | Path |
-|---|---|---|
-| Project Bootstrap | `/hadp-init` | `.claude/skills/hadp-init/` |
-| Analyst | `/hadp-analyst` | `.claude/skills/hadp-analyst/` |
-| Decision Maker | `/hadp-decision-maker` | `.claude/skills/hadp-decision-maker/` |
-| Manager | `/hadp-manager` | `.claude/skills/hadp-manager/` |
-| Worker Coder | `/hadp-coder` | `.claude/skills/hadp-coder/` |
-| Worker Tester | `/hadp-tester` | `.claude/skills/hadp-tester/` |
-| Auditor (Full Audit) | `/hadp-auditor` | `.claude/skills/hadp-auditor/` |
-| Auditor (Compliance Check) | `/hadp-compliance` | `.claude/skills/hadp-compliance/` |
+| Command | Role |
+|---|---|
+| `/hadp-init` | One-time setup in a freshly copied project |
+| `/hadp-planner` | Planner |
+| `/hadp-coder TASK-001` | Coder |
+| `/hadp-tester` | Tester (runs isolated from the current chat) |
 
-Other agents (Gemini, GPT, GLM, etc.) follow the manual `call-*.md` playbooks instead — Claude Code Skills are Claude-Code-specific.
-
----
-
-## 📋 Quick Reference
-
-### Commands
-```bash
-npm run dev        # Start dev server
-npm run build      # Production build (MUST pass before shipping)
-npm run lint       # Lint check
-npm run test       # Run tests
-npm run hadp:check # Framework compliance check — mandatory before Manager's PASS verdict (see triggers.md T5b)
-```
-
-### Critical Files (must read before task)
-| File | Path | When to Read |
-|---|---|---|
-| Manual Book | `AGENTS.md` | Every chat start |
-| Hard Constraints | `.agents/RED_LINES.md` | Before every task |
-| Project Identity | `.agents/CONSTITUTION.md` | Before first task |
-| Tech Stack | `.agents/ARCHITECTURE.md` | Before first task |
-| Role Definition | `.agents/roles/{role}.md` | When assigned to that role |
-| Area Rules | `{area}/AGENTS.md` | Before touching that area |
-| Task Plan | `PLAN.md` | Check task dependencies |
-
-### Naming Convention Handoff Packets
-```
-{direction}_{task-id}_{YYYYMMDD}.md
-```
-Prefix: `analyst-to-dm`, `auditor-to-dm`, `auditor-to-mgr`, `dm-to-mgr`, `mgr-to-coder`, `coder-to-tester`, `tester-to-mgr`, `tester-to-coder`, `mgr-to-dm`
-
-### Naming Convention Workbook
-```
-docs/workbook/{role}/YYYYMMDD_TASK-XXX_{type}.md
-```
-Example: `docs/workbook/coder/20260630_TASK-001_completion.md`
-
----
-
-## 📚 Related Documents
-
-| Document | Path | Description |
-|---|---|---|
-| **Framework Overview** | `.agents/docs/framework/framework-overview.md` | Start here — how HADP's pieces fit together |
-| **Glossary** | `.agents/docs/framework/glossary.md` | Term definitions |
-| Workflow Lifecycle | `.agents/docs/workflow/lifecycle.md` | Full flow diagram |
-| Task States | `.agents/docs/workflow/states.md` | Task state machine |
-| Triggers | `.agents/docs/workflow/triggers.md` | Triggers for each transition |
-| Handoff Protocol | `.agents/docs/handoff-protocol.md` | Communication format between agents |
-| Severity System | `.agents/docs/framework/severity-system.md` | Severity standards for all roles |
-| Artifact Contracts | `.agents/docs/framework/artifact-contracts.md` | Validation contracts for each artifact |
-| Validation Rules | `.agents/docs/framework/validation-rules.md` | `hadp:check` rule spec |
-| Decision Quality Rubric | `.agents/docs/framework/decision-quality-rubric.md` | ADR quality scoring (6 dimensions) |
-| Auditor Role | `.agents/roles/auditor.md` | Auditor role definition |
-| Workbook Templates | `.agents/docs/workbook/{role}/_template.md` | Report templates per role |
-| ADR Template | `.agents/docs/decisions/_template.md` | Architecture decision template |
-
----
-
-## ⚙️ Rules for All Agents
-
-### DO
-- Read `RED_LINES.md` before starting any task
-- Read area-specific `AGENTS.md` before touching files in that area
-- Follow acceptance criteria from Manager
-- Report honestly — if there is a problem, say so
-- Use established naming conventions
-
-### DON'T
-- Do not modify governance files without Decision Maker approval
-- Do not skip handoff packets — every transition MUST have an artifact
-- Do not skip tiers — order must follow hierarchy
-- Do not test own work (Coder) nor code (Tester)
-- Do not create files outside task scope without approval
-
----
-
-> **Last Updated**: 2026-06-30
-> **Model**: Hierarchical Agentic Development Pipeline (HADP)
+Other agents (Gemini, GPT, GLM, …): paste the prompt at the bottom of the role file.
