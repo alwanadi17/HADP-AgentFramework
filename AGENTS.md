@@ -54,7 +54,9 @@ Tester runs whenever you call it and checks every task in `REVIEW` — one at a 
 |---|---|
 | `/hadp-init` | One-time setup in a freshly copied project |
 | `/hadp-planner` | Planner |
-| `/hadp-coder TASK-001` | Coder |
-| `/hadp-tester` | Tester (runs isolated from the current chat) |
+| `/hadp-coder TASK-001` | Coder (subagent, model/effort from the task's *Run* line) |
+| `/hadp-tester` | Tester (one isolated subagent per `REVIEW` task, model/effort from *Run*) |
 
-Other agents (Gemini, GPT, GLM, …): paste the prompt at the bottom of the role file.
+The Planner picks model and effort per task in its *Run* line; the Coder and Tester skills launch subagents with those settings (`.claude/agents/`).
+
+Other agents (Gemini, GPT, GLM, …): paste the prompt at the bottom of the role file, and treat *Run* as a hint for which model to use.

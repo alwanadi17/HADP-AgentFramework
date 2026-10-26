@@ -17,6 +17,8 @@ They never share a chat. Everything passes through one file: `PLAN.md`. Its Chec
 5. Verify: `/hadp-tester`.
 6. Review `DONE` tasks and merge.
 
+The Planner picks each task's model and effort (`Run: coder sonnet/medium · tester haiku/low`), and the Coder/Tester skills run with exactly that.
+
 Using another agent (Gemini, GPT, GLM, …)? Each role file in `.agents/roles/` ends with a prompt you can paste in.
 
 ## What's included
@@ -29,6 +31,7 @@ PLAN.md                   task list + handoff channel
   roles/                  planner.md, coder.md, tester.md
   decisions/_template.md  ADR template, for hard-to-reverse decisions only
 .claude/skills/           /hadp-init, /hadp-planner, /hadp-coder, /hadp-tester
+.claude/agents/           Coder and Tester subagents
 ```
 
 ## How a task moves

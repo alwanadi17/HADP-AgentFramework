@@ -35,6 +35,7 @@ Acceptance:
 - [ ] Specific, testable criterion
 - [ ] Build, tests and lint pass
 Files: path/to/file — what changes
+Run: coder sonnet/medium · tester haiku/low
 Coder notes: _(Coder: what changed, build/test/lint results)_
 Verdict: _(Tester: PASS or FAIL #n, then findings marked "blocking" or "note")_
 -->

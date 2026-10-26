@@ -10,9 +10,25 @@
    - fits in one Coder session (roughly ≤ 200 lines changed),
    - has acceptance criteria a Tester can check without reading your mind,
    - lists the files it expects to touch,
+   - gets a *Run* line choosing model and effort for the Coder and Tester (see below),
    - gets a `- [ ] TASK-xxx: Title` line in the *Checklist*.
 4. **Unblock** `BLOCKED` tasks: rewrite the spec, split the task, or ask the human. Reset the Checklist line to `[ ]`.
 5. Update `.agents/PROJECT.md` when the stack, commands or red lines change.
+
+## Picking model and effort
+
+Write it as `Run: coder <model>/<effort> · tester <model>/<effort>`. Models: `haiku`, `sonnet`, `opus`, `fable`. Effort: `low`, `medium`, `high`, `xhigh`, `max`.
+
+| Task | Coder | Tester |
+|---|---|---|
+| Mechanical (rename, config, copy-paste pattern) | haiku/low | haiku/low |
+| Normal feature with a clear spec | sonnet/medium | haiku/medium |
+| Tricky logic, cross-module, security, performance | opus/high | sonnet/medium |
+
+- Pick the cheapest that will get it right first time — a retry costs more than one step up.
+- The Tester is usually cheaper than the Coder. Raise it when verification itself needs reasoning (security, concurrency).
+- Use `fable` only when you can say why `opus` isn't enough.
+- Non-Claude agents read *Run* as a tier hint: haiku = cheap, sonnet = mid, opus/fable = strong.
 
 ## You may edit
 
