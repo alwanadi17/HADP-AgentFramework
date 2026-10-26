@@ -1,249 +1,48 @@
-# 📘 HADP — Hierarchical Agentic Development Pipeline
+# HADP — Hierarchical Agentic Development Pipeline
 
-A reusable template for **multi-tier AI-assisted project development** using the HADP model.
+A small template for building software with several AI models, each doing what it's cheapest at:
 
-## Quick Start
+- **Planner** — an expensive, high-reasoning model thinks and writes tasks.
+- **Coder** — a coding-focused model implements them.
+- **Tester** — a cheap model verifies each task in a separate session.
 
-1. Copy the contents of this directory to your new project root
-2. Customize `.agents/CONSTITUTION.md` — project identity & philosophy
-3. Customize `.agents/RED_LINES.md` — hard constraints
-4. Customize `.agents/ARCHITECTURE.md` — tech stack & data flow
-5. Update `AGENTS.md` with your project-specific quick reference
-6. Add `.agents/` to your `.gitignore`
+They never share a chat. Everything passes through one file: `PLAN.md`.
 
-> **Claude Code**: steps 2–6 can be done interactively via `/hadp-init` (`.claude/skills/hadp-init/SKILL.md`) instead of by hand. Other agents follow the manual steps above.
+## Quick start
 
-## What's Included
+1. Copy `AGENTS.md`, `PLAN.md`, `.agents/` and `.claude/` into your project root.
+2. Fill in `.agents/PROJECT.md` (stack, commands, red lines) — or run `/hadp-init` in Claude Code.
+3. Ask the Planner for something: `/hadp-planner add login with email`.
+4. Implement a task: `/hadp-coder TASK-001`.
+5. Verify: `/hadp-tester`.
+6. Review `DONE` tasks and merge.
 
-```
-.reusable_template/
-├── README.md                         ← You are here
-├── AGENTS.md                         ← HADP Manual Book (entry point)
-├── PLAN.md                           ← Task checklist template
-│
-├── .agents/                          ← 🏢 OFFICE (governance & workflow)
-│   ├── CONSTITUTION.md               ← Project identity (customize)
-│   ├── RED_LINES.md                  ← Hard constraints (customize)
-│   ├── ARCHITECTURE.md               ← Tech stack & data flow (customize)
-│   ├── roles/                        ← Agent system prompts
-│   │   ├── analyst.md               ← Tier 0 — Research & mapping
-│   │   ├── auditor.md               ← Tier 0b — Compliance & decision review
-│   │   ├── decision-maker.md         ← Tier 1 — Architecture & governance
-│   │   ├── manager.md                ← Tier 2 — Task decomposition & validation
-│   │   ├── worker-coder.md           ← Tier 3a — Code implementation
-│   │   └── worker-tester.md          ← Tier 3b — Testing & verification
-│   ├── handoffs/                     ← Active handoff packets
-│   │   └── README.md
-│   └── docs/                         ← Workflow documentation & reports
-│       ├── handoff-protocol.md       ← How agents communicate
-│       ├── workflow/
-│       │   ├── lifecycle.md          ← High-level flow diagram
-│       │   ├── states.md             ← Task lifecycle state machine
-│       │   └── triggers.md           ← Transition triggers
-│       ├── workbook/                 ← Per-role report archives
-│       │   ├── analyst/
-│       │   ├── auditor/
-│       │   ├── decision-maker/
-│       │   ├── manager/
-│       │   ├── coder/
-│       │   └── tester/
-│       ├── reports/                  ← Aggregate reports
-│       │   ├── sprint-review.md
-│       │   └── audit-trail.md
-│       └── decisions/                ← ADR archive
-│           └── _template.md
-│
-└── src/                              ← 🏭 FACTORY (production code)
-```
+Using another agent (Gemini, GPT, GLM, …)? Each role file in `.agents/roles/` ends with a prompt you can paste in.
 
-## Agent Hierarchy
-
-| Tier | Role | Suggested Model Profile | Purpose |
-|---|---|---|---|
-| 0 | **Analyst** | Long-context, high-volume (e.g., Gemini 3.5 Flash Extended) | Research, codebase mapping, structured briefs |
-| 0b | **Auditor** | High-reasoning (e.g., Opus 4.8) | Compliance audit, decision review, process assurance |
-| 1 | **Decision Maker** | High-reasoning (e.g., Opus 4.8) | Rules, architecture, governance |
-| 2 | **Manager** | Balanced intelligence (e.g., GPT 5.5) | Task decomposition, validation |
-| 3a | **Worker Coder** | Coding-focused (e.g., GLM 5.2) | Code implementation |
-| 3b | **Worker Tester** | Token-efficient (e.g., Gemini 3.5 Flash) | Testing, cross-validation |
-
-## Workflow
+## What's included
 
 ```
-                    ┌─── [Auditor] (on-demand) ───┐
-                    │         ↑    ↑       ↑       │
-                    │         │    │       │       │
-                    ▼         │    │       │       │
-Human → [Analyst] → Decision Maker → Manager → Worker Coder → Worker Tester → Manager → Human
-         (opsional)                                    ↓              ↓
-                                                  build pass    test report
+AGENTS.md                 the whole manual — start here
+PLAN.md                   task list + handoff channel
+.agents/
+  PROJECT.md              project facts and red lines
+  roles/                  planner.md, coder.md, tester.md
+  decisions/_template.md  ADR template, for hard-to-reverse decisions only
+.claude/skills/           /hadp-init, /hadp-planner, /hadp-coder, /hadp-tester
 ```
 
-**Step by step**:
-0. **Analyst** (Optional) — deep research, structured briefs → `workbook/analyst/`
-0b. **Auditor** (On-demand) — compliance audit, decision review → `workbook/auditor/`
-1. **Decision Maker** — reads briefs, produces governance docs, writes ADRs
-2. **Manager** — decomposes into tasks, creates handoff packets → `.agents/handoffs/`
-3. **Worker Coder** — implements code, runs build + `hadp:check` self-check, submits completion packet, repeats per task without waiting on step 4
-4. **Worker Tester** — independently verifies, runs build, submits test report — once per **sprint**, batched, not per task (see `.agents/docs/workflow/triggers.md` T4)
-5. **Manager** — macro-validation (incl. final `hadp:check` gate), PASS / FAIL / ESCALATE
-6. **Human** — reviews, merges, triggers next cycle
-
-> Full protocol: `.agents/docs/handoff-protocol.md`
-
-## Core Concept
-
-HADP separates **thinking** from **doing** through 6 agent roles:
-
-| Role | Thinking / Doing | Key Rule |
-|---|---|---|
-| **Analyst** | 🧠 Thinking | Reads the codebase so Decision Maker doesn't have to |
-| **Auditor** | 🧠 Thinking | Reviews compliance & decisions independently |
-| **Decision Maker** | 🧠 Thinking | Makes high-level decisions only — never writes code |
-| **Manager** | 🧠 Thinking | Translates decisions into atomic tasks — never writes code |
-| **Worker Coder** | ⚡ Doing | Writes code only — never tests own work |
-| **Worker Tester** | ⚡ Doing | Tests code only — must be a separate session |
-
-### Key Principles
-- **Separation of Concerns** — each tier does ONE thing
-- **Gate System** — every transition requires a handoff packet
-- **Token Efficiency** — Analyst reads once, Decision Maker doesn't read raw source
-- **Fail Fast** — Coder fails build → report immediately. Issues → loop back
-
-## Customization Points
-
-| File | What to customize |
-|---|---|
-| `CONSTITUTION.md` | Project name, philosophy, non-negotiable principles |
-| `RED_LINES.md` | Security, data, code quality, architecture constraints |
-| `ARCHITECTURE.md` | Tech stack, directory structure, data flow, URL contract |
-| `AGENTS.md` | Commands, critical files, design system, data sources |
-| Role definitions | Model names, specific tool permissions, domain knowledge |
-
-## Related Docs
-
-| Doc | Path |
-|---|---|
-| Manual Book | `AGENTS.md` |
-| Hard Constraints | `.agents/RED_LINES.md` |
-| Workflow Lifecycle | `.agents/docs/workflow/lifecycle.md` |
-| Handoff Protocol | `.agents/docs/handoff-protocol.md` |
-| Task States | `.agents/docs/workflow/states.md` |
-| Triggers | `.agents/docs/workflow/triggers.md` |
-| Audit Trail | `.agents/docs/reports/audit-trail.md` |
-
-## 📋 Next Development Project — HADP v2.0
-
-Planned milestones to evolve the HADP framework. Each milestone is a standalone project with its own tasks.
-
----
-
-### Milestone 1: Decision Quality Rubric ✅
-**Goal**: Give the Auditor objective parameters to evaluate architectural decisions.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `.agents/docs/framework/` folder | Folder structure | ✅ |
-| Create `decision-quality-rubric.md` | Rubric with 6 dimensions (reversibility, blast radius, coupling, operational cost, security, simplicity) | ✅ |
-| Update `auditor.md` — add rubric reference | Role definition update | ✅ |
-| Update `triggers.md` — T0b output rubric | Trigger update | ✅ |
-
----
-
-### Milestone 2: Artifact Contracts ✅
-**Goal**: Every handoff/workbook file must have a validation contract — no empty placeholders allowed.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `artifact-contracts.md` in `.agents/docs/framework/` | Contract definitions per artifact type | ✅ |
-| Update all `_template.md` files — add required field markers | Template update | ✅ |
-| Add validation checklist to `manager.md` | Manager role update | ✅ |
-
----
-
-### Milestone 3: Task Index Registry ✅
-**Goal**: Every task is traceable from request to final verdict in one place.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `task-index.md` in `.agents/docs/reports/` | Registry template | ✅ |
-| Update `PLAN.md` — add task index reference | Plan update | ✅ |
-| Update `manager.md` — must update task index after final verdict | Manager role update | ✅ |
-
----
-
-### Milestone 4: Role Activation Playbooks
-**Goal**: Every role has a playbook with consistent invocation prompts and templates.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `.agents/docs/playbooks/` folder | Folder structure | ✅ |
-| Create `call-analyst.md` | Analyst playbook | ✅ |
-| Create `call-auditor.md` | Auditor playbook | ✅ |
-| Create `call-decision-maker.md` | Decision Maker playbook | ✅ |
-| Create `call-manager.md` | Manager playbook | ✅ |
-| Create `call-coder.md` | Coder playbook | ✅ |
-| Create `call-tester.md` | Tester playbook | ✅ |
-
----
-
-### Milestone 5: Automation Tooling ✅
-**Goal**: CLI script to validate framework structure and compliance.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `scripts/hadp-check.js` | Validation script | ✅ |
-| Add `npm run hadp:check` to `AGENTS.md` | Command update | ✅ |
-| Create `.agents/docs/framework/validation-rules.md` | Rules documentation | ✅ |
-| Wire `hadp:check` as mandatory gate at Manager's PASS verdict (T5b) | `manager.md`, `auditor.md`, `call-auditor.md`, `triggers.md`, `states.md`, `artifact-contracts.md` updates | ✅ |
-
----
-
-### Milestone 6: Framework Documentation Overhaul ✅
-**Goal**: Complete, structured framework documentation.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `framework-overview.md` in `.agents/docs/framework/` | HADP architecture overview | ✅ |
-| Create `glossary.md` | Term definitions (HADP, handoff, workbook, etc.) | ✅ |
-| Update `AGENTS.md` — add links to framework docs | Manual Book update | ✅ |
-
----
-
-### Milestone 7: Cadence Rebalance — Frequent Compliance Checks, Batched Testing ✅
-**Goal**: Rebalance the two automated/semi-automated checkpoints so each runs at the cadence its cost actually justifies — cheap `hadp:check` more often, expensive Tester judgment less often.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Batch Worker Tester to sprint end instead of per-task (T4 redefined) | `triggers.md`, `states.md`, `worker-tester.md`, `call-tester.md` updates | ✅ |
-| Add per-task `hadp:check` self-check to Worker Coder's completion flow | `worker-coder.md`, `call-coder.md` updates | ✅ |
-| Document the two-checkpoint compliance model (per-task self-check + final cumulative gate) | `validation-rules.md` update | ✅ |
-| Clarify Manager's sprint-boundary and dependency-tracking responsibilities | `manager.md` update | ✅ |
-| Update flow diagram + sprint report template for the new cadence | `lifecycle.md`, `sprint-review.md` updates | ✅ |
-
----
-
-### Milestone 8: Claude Code Skills for Role Activation ✅
-**Goal**: Turn every role's invocation playbook into an actual Claude Code Skill, so activating a role is one slash command instead of a manual copy-paste.
-
-| Task | Deliverable | Status |
-|---|---|---|
-| Create `.claude/skills/hadp-init/` | One-time project bootstrap wizard, wraps README Quick Start | ✅ |
-| Create one skill per role (`hadp-analyst`, `hadp-decision-maker`, `hadp-manager`, `hadp-coder`) | Live-injects the role definition + playbook, no content duplication | ✅ |
-| Split Auditor into `hadp-auditor` (Full Audit, advisory) and `hadp-compliance` (mandatory gate, forked) | Two skills, matching the role's two distinct modes | ✅ |
-| Create `hadp-tester` with `context: fork` | Technical enforcement of the "separate session from Coder" rule | ✅ |
-| Doc-sync: point every `call-*.md` playbook and `AGENTS.md` at the new skills | `call-*.md`, `AGENTS.md`, `README.md` updates | ✅ |
-
----
-
-### Priority Order
+## How a task moves
 
 ```
-Milestone 1 (Rubric) → Milestone 2 (Contracts) → Milestone 3 (Registry)
-       ↓
-Milestone 4 (Playbooks) → Milestone 5 (Tooling) → Milestone 6 (Docs)
-       ↓
-Milestone 7 (Cadence Rebalance) → Milestone 8 (Claude Code Skills)
+TODO → DOING → REVIEW → DONE
+                 │
+                 └─ FAIL → TODO (3rd fail → BLOCKED → back to Planner)
 ```
 
-**All 8 milestones complete.** The v2.0 roadmap is done — Auditor has both a scoring rubric and blocking automated tooling, every artifact has a validation contract, tasks are traceable end-to-end, every role has an activation playbook, compliance is enforced automatically at the Manager's PASS gate (and now also per-task by Coder), the framework is documented top-to-bottom (`.agents/docs/framework/framework-overview.md` is the entry point for architecture questions), the two automated checkpoints (`hadp:check` vs. Worker Tester) are cadenced according to their actual cost — cheap and frequent vs. expensive and sprint-batched — and every role plus the initial project bootstrap is one slash command away in Claude Code (`.claude/skills/`).
+## History
+
+v1 had six roles, eleven workflow triggers, handoff packets, per-role report archives and a compliance script. It was too heavy to use, so v2 cut it down to this. The full v1 is still available at the git tag `v1-full`.
+
+## License
+
+MIT — see `LICENSE`.
