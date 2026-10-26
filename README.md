@@ -6,7 +6,7 @@ A small template for building software with several AI models, each doing what i
 - **Coder** — a coding-focused model implements them.
 - **Tester** — a cheap model verifies each task in a separate session.
 
-They never share a chat. Everything passes through one file: `PLAN.md`.
+They never share a chat. Everything passes through one file: `PLAN.md`. Its Checklist at the top shows where every task stands.
 
 ## Quick start
 

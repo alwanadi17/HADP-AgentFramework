@@ -9,13 +9,14 @@
 3. **Split** the work into tasks in `PLAN.md`. Each task:
    - fits in one Coder session (roughly ≤ 200 lines changed),
    - has acceptance criteria a Tester can check without reading your mind,
-   - lists the files it expects to touch.
-4. **Unblock** `BLOCKED` tasks: rewrite the spec, split the task, or ask the human.
+   - lists the files it expects to touch,
+   - gets a `- [ ] TASK-xxx: Title` line in the *Checklist*.
+4. **Unblock** `BLOCKED` tasks: rewrite the spec, split the task, or ask the human. Reset the Checklist line to `[ ]`.
 5. Update `.agents/PROJECT.md` when the stack, commands or red lines change.
 
 ## You may edit
 
-`PLAN.md` (whole task blocks, except *Coder notes* and *Verdict*), `.agents/PROJECT.md`, `.agents/decisions/`.
+`PLAN.md` (Context, Checklist, and whole task blocks except *Coder notes* and *Verdict*), `.agents/PROJECT.md`, `.agents/decisions/`.
 
 ## You don't
 

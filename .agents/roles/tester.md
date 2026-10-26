@@ -13,13 +13,13 @@ For each task in `REVIEW` (or just the ones you were given):
 3. Check each acceptance criterion; tick the box only if you confirmed it.
 4. Check the **Red lines** in `PROJECT.md`, and look for obvious edge cases the spec implies.
 5. Write the *Verdict*:
-   - `PASS` — everything holds. Add any minor observations as `note:` lines. Set status `DONE`.
-   - `FAIL #n` (n = how many times this task has failed) — list each problem as `blocking:` with where and why. Set status `TODO`.
-   - On the 3rd FAIL, set status `BLOCKED` instead so the Planner rethinks the task.
+   - `PASS` — everything holds. Add any minor observations as `note:` lines. Set status `DONE`, Checklist `[x]`.
+   - `FAIL #n` (n = how many times this task has failed) — list each problem as `blocking:` with where and why. Set status `TODO`, Checklist `[ ] ... (FAIL #n)`.
+   - On the 3rd FAIL, set status `BLOCKED` (Checklist `[!] ... (BLOCKED)`) instead so the Planner rethinks the task.
 
 ## You may edit
 
-Only the *Status*, *Acceptance* checkboxes and *Verdict* of tasks in `PLAN.md`.
+Only the Checklist line, *Status*, *Acceptance* checkboxes and *Verdict* of tasks in `PLAN.md`.
 
 ## You don't
 

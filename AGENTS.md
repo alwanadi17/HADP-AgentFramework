@@ -17,7 +17,7 @@ Role details: `.agents/roles/{planner,coder,tester}.md`
 | File | What it is |
 |---|---|
 | `AGENTS.md` | This manual |
-| `PLAN.md` | Task list **and** the only handoff channel between roles |
+| `PLAN.md` | Checklist (progress at a glance) + task details — the only handoff channel between roles |
 | `.agents/PROJECT.md` | Project identity, tech stack, commands, red lines — read before every task |
 | `.agents/roles/*.md` | One file per role, including a copy-paste prompt for non-Claude models |
 | `.agents/decisions/` | ADRs — optional, only for decisions that are hard to reverse |
@@ -43,6 +43,7 @@ Tester runs whenever you call it and checks every task in `REVIEW` — one at a 
 
 - Read `.agents/PROJECT.md` (especially **Red Lines**) before touching anything.
 - Only edit your own fields in `PLAN.md` (see the task format there).
+- When you change a task's *Status*, update its line in the `PLAN.md` Checklist in the same edit — that's what the human reads.
 - Coder and Tester must run in **separate sessions** — the Tester never sees the Coder's chat.
 - If something is unclear or out of scope, set the task to `BLOCKED` with a one-line reason instead of guessing.
 - Report honestly. A failed build or test is written down, not hidden.
